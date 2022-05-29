@@ -1,0 +1,31 @@
+<?php
+
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\InfoController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::middleware('guest')->group(function () {
+    Route::get('login', [UserController::class, 'login'])->name('login');
+    Route::post('login', [UserController::class, 'postLogin'])->name('postLogin');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/', [UserController::class, 'home'])->name('home');
+
+    Route::prefix('admin')->middleware('role:admin')->name('admin.')->group(function () {
+        Route::resource('customer', CustomerController::class);
+        Route::resource('info', InfoController::class);
+    });
+});
