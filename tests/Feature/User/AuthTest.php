@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class LoginTest extends TestCase
+class AuthTest extends TestCase
 {
     public function test_home()
     {
@@ -25,5 +25,12 @@ class LoginTest extends TestCase
         ]);
 
         $response->assertRedirect('/');
+    }
+
+    public function test_logout()
+    {
+        $this->admin()->get('/logout')
+        ->assertStatus(302)
+        ->assertRedirect('/login');
     }
 }

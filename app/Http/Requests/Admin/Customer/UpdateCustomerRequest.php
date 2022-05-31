@@ -24,10 +24,10 @@ class UpdateCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|max:255',
-            'username' => 'string|max:255|unique:users',
-            'email' => 'string|email|max:255|unique:users',
-            'password' => 'string|min:6',
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'bail',
         ];
     }
 }

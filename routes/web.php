@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\InfoController;
 use App\Http\Controllers\UserController;
@@ -24,8 +25,13 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/', [UserController::class, 'home'])->name('home');
 
+    Route::any('/logout', [UserController::class, 'logout'])->name('logout');
+
     Route::prefix('admin')->middleware('role:admin')->name('admin.')->group(function () {
         Route::resource('customer', CustomerController::class);
         Route::resource('info', InfoController::class);
+        
+        Route::get('account', [AccountController::class, 'index'])->name('account.index');
+        Route::post('account/password', [AccountController::class, 'password'])->name('account.password');
     });
 });

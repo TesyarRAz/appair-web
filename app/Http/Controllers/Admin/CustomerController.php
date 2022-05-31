@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\Admin\CustomerDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Customer\StoreCustomerRequest;
 use App\Http\Requests\Admin\Customer\UpdateCustomerRequest;
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -15,13 +17,9 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(CustomerDataTable $dataTable)
     {
-        $customers = User::whereDoesntHave('roles', function ($query) {
-            $query->where('name', 'admin');
-        })->get();
-
-        return view('admin.customer.index', compact('customers'));
+        return $dataTable->render('admin.customer.index');
     }
 
     /**
@@ -44,6 +42,14 @@ class CustomerController extends Controller
     {
         $data = $request->validated();
 
+        if (blank($data['username'])) {
+            $data['username'] = $data['email'];
+        }
+
+        if (blank($data['password'])) {
+            $data['password'] = str()->random(8);
+        }
+
         $user = User::create($data);
         $user->assignRole('customer');
         $user->customer()->create();
@@ -56,21 +62,23 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $customer
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(User $customer)
+    public function show(Customer $customer)
     {
-        //
+        $customer->load('user');
+        
+        return response($customer);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\User  $customer
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $customer)
+    public function edit(Customer $customer)
     {
         //
     }
@@ -79,14 +87,17 @@ class CustomerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $customer
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCustomerRequest $request, User $customer)
+    public function update(UpdateCustomerRequest $request, Customer $customer)
     {
         $data = $request->validated();
 
-        $customer->update($data);
+        if (blank($data['password']))
+            unset($data['password']);
+
+        $customer->user->update($data);
 
         alert()->success('Success', 'Customer updated successfully');
 
@@ -96,10 +107,10 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $customer
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $customer)
+    public function destroy(Customer $customer)
     {
         $customer->delete();
 

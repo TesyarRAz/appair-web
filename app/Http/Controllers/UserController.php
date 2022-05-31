@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function home()
     {
-        
+        return view('admin.dashboard.index');
     }
 
     public function login()
@@ -26,6 +26,7 @@ class UserController extends Controller
 
         $user = User::where('username', $credentials['username_or_email'])
             ->orWhere('email', $credentials['username_or_email'])
+            ->role('admin')
             ->first();
         
         if (filled($user) && Hash::check($credentials['password'], $user->password))
@@ -36,5 +37,12 @@ class UserController extends Controller
         }
 
         return back()->withErrors(['password' => 'Invalid credentials']);
+    }
+
+    public function logout()
+    {
+        auth()->logout();
+
+        return to_route('login');
     }
 }
