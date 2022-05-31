@@ -13,14 +13,16 @@
 <!-- Divider -->
 <hr class="sidebar-divider">
 
-<!-- Heading -->
-<div class="sidebar-heading">
-	User Management
-</div>
 <li class="nav-item {{ request()->routeIs('admin.customer.*') ? 'active' : '' }}">
 	<a class="nav-link" href="{{ route('admin.customer.index') }}">
 		<i class="fas fa-fw fa-user"></i>
 		<span>Kelola Customer</span>
+	</a>
+</li>
+<li class="nav-item {{ request()->routeIs('admin.info.*') ? 'active' : '' }}">
+	<a class="nav-link" href="{{ route('admin.info.index') }}">
+		<i class="fas fa-fw fa-user"></i>
+		<span>Kelola Info</span>
 	</a>
 </li>
 

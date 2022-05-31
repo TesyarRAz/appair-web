@@ -25,9 +25,9 @@ class StoreInfoRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'image' => 'required|string|max:255',
-            'url' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'file|image',
+            'url' => 'bail',
         ];
     }
 }

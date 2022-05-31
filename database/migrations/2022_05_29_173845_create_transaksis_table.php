@@ -18,12 +18,15 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
             $table->string('kode');
-            $table->unsignedInteger('total_bayar')->default(0);
-            $table->unsignedInteger('total_harga')->default(0);
             $table->foreignIdFor(Customer::class)->constrained();
             $table->foreignIdFor(User::class, 'admin_id')->nullable()->constrained('users');
-            $table->boolean('lunas')->default(false);
+
             $table->string('bukti_bayar')->nullable();
+            $table->enum('status', ['diterima', 'lewati', 'ditolak', 'lunas'])->default('diterima');
+            $table->string('keterangan_ditolak');
+            
+            $table->unsignedInteger('total_bayar')->default(0);
+            $table->unsignedInteger('total_harga')->default(0);
             $table->date('tanggal_bayar');
             $table->timestamps();
         });

@@ -59,7 +59,6 @@
 				modal.attr('action', url_target);
 				modal.modal();
             });
-
         }
     </script>
 @endpush

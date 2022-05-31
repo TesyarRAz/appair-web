@@ -17,9 +17,11 @@ class TransaksiFactory extends Factory
      */
     public function definition()
     {
+        $status = $this->faker->randomElement('diterima', 'ditolak', 'lewati', 'lunas');
         return [
             'customer_id' => User::factory()->customer()->create()->customer->id,
-            'lunas' => $this->faker->boolean,
+            'status' => $status,
+            'keterangan_ditolak' => $status == 'ditolak' ? $this->faker->sentence : null,
             'tanggal_bayar' => now(),
         ];
     }

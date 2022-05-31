@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\Admin\InfoDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Info\StoreInfoRequest;
 use App\Http\Requests\Admin\Info\UpdateInfoRequest;
 use App\Models\Info;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class InfoController extends Controller
 {
@@ -15,11 +17,9 @@ class InfoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(InfoDataTable $dataTable)
     {
-        $infos = Info::all();
-
-        return view('admin.info.index', compact('infos'));
+        return $dataTable->render('admin.info.index');
     }
 
     /**
@@ -42,6 +42,18 @@ class InfoController extends Controller
     {
         $data = $request->validated();
 
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->image
+            ->storeAs(
+                implode('/', [
+                    'images',
+                    'info',
+                ]),
+                $request->image->hashName(),
+                'public',
+            );
+        }
+
         Info::create($data);
 
         alert()->success('Info created successfully.', 'Success');
@@ -57,7 +69,7 @@ class InfoController extends Controller
      */
     public function show(Info $info)
     {
-        //
+        return response($info);
     }
 
     /**
@@ -82,6 +94,18 @@ class InfoController extends Controller
     {
         $data = $request->validated();
 
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->image
+            ->storeAs(
+                implode('/', [
+                    'images',
+                    'info',
+                ]),
+                $request->image->hashName(),
+                'public',
+            );
+        }
+
         $info->update($data);
 
         alert()->success('Info updated successfully.', 'Success');
@@ -102,5 +126,27 @@ class InfoController extends Controller
         alert()->success('Info deleted successfully.', 'Success');
 
         return to_route('admin.info.index');
+    }
+
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'upload' => 'required|file',
+            'CKEditorFuncNum' => 'required|numeric'
+        ]);
+
+        $response = $request->upload
+        ->storeAs(
+            implode('/', [
+                'images',
+                'info',
+            ]),
+            $request->upload->hashName(),
+            'public',
+        );
+
+        $function_number = $request->CKEditorFuncNum;
+
+        return response("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($function_number, '" . Storage::disk('public')->url($response) ."', '');</script>");
     }
 }

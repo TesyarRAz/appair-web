@@ -35,7 +35,7 @@ class BayarRequest extends FormRequest
         return $now_transaksi = auth()->user()->customer->transaksis()
             ->whereMonth('tanggal_bayar', now())
             ->whereYear('tanggal_bayar', now())
-            ->where('lunas', false)
+            ->where('status', 'lunas')
             ->first();
     }
 }

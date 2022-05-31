@@ -15,12 +15,24 @@ class AuthTest extends TestCase
         $response->assertRedirect('/login');
     }
 
-    public function test_login()
+    public function test_login_customer()
     {
         $this->get('/login')->assertStatus(200);
 
         $response = $this->post('/login', [
             'username_or_email' => 'test@example.com',
+            'password' => 'password',
+        ]);
+
+        $response->assertRedirect('/login');
+    }
+
+    public function test_login_admin()
+    {
+        $this->get('/login')->assertStatus(200);
+
+        $response = $this->post('/login', [
+            'username_or_email' => 'admin@example.com',
             'password' => 'password',
         ]);
 

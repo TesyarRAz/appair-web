@@ -24,10 +24,10 @@ class UpdateInfoRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'string|max:255',
-            'description' => 'string|max:255',
-            'image' => 'string|max:255',
-            'url' => 'string|max:255',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'file|image',
+            'url' => 'bail',
         ];
     }
 }

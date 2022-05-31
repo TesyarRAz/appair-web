@@ -38,7 +38,7 @@ class CustomerTest extends TestCase
 
     public function test_update()
     {
-        $customer = User::factory()->customer()->create();
+        $user = User::factory()->customer()->create();
 
         $data = User::factory()->make()->toArray();
 
@@ -47,8 +47,8 @@ class CustomerTest extends TestCase
         $data['password'] = 'password';
 
         $this->admin()
-            ->put('/admin/customer/' . $customer->id, $data)
-            ->assertStatus(302)
+            ->put('/admin/customer/' . $user->customer->id, $data)
+            ->assertRedirect('/admin/customer')
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas('users', $data);
@@ -56,19 +56,19 @@ class CustomerTest extends TestCase
 
     public function test_delete()
     {
-        $customer = User::factory()->customer()->create();
+        $user = User::factory()->customer()->create();
 
         $this->admin()
-            ->delete('/admin/customer/' . $customer->id)
+            ->delete('/admin/customer/' . $user->customer->id)
             ->assertStatus(302)
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseMissing('users', [
-            'id' => $customer->id,
+            'id' => $user->id,
         ]);
         
         $this->assertDatabaseMissing('customers', [
-            'user_id' => $customer->id,
+            'user_id' => $user->id,
         ]);
     }
 }
