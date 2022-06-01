@@ -15,6 +15,10 @@
                     <input name="name" type="text" class="form-control" required>
                 </div>
                 <div class="form-group">
+                    <label class="font-weight-bold">Kubik <span class="text-danger">*</span></label>
+                    <input name="kubik" type="number" class="form-control" min="0" required>
+                </div>
+                <div class="form-group">
                     <label class="font-weight-bold">Email <span class="text-danger">*</span></label>
                     <input name="email" type="email" class="form-control" required>
                 </div>

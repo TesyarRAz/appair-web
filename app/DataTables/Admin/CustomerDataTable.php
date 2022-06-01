@@ -31,15 +31,15 @@ class CustomerDataTable extends DataTable
 
                 return <<< blade
                 <div>
-                    <a href="$route_transaksi" class="btn btn-sm btn-success">
+                    <a href="$route_transaksi" class="mb-1 btn btn-sm btn-success">
                         <i class="fas fa-fw fa-book-open"></i>
                         Transaksi
                     </a>
-                    <button type="button" class="btn btn-sm btn-primary" onclick="edit('$id')">
+                    <button type="button" class="mb-1 btn btn-sm btn-primary" onclick="edit('$id')">
                         <i class="fas fa-fw fa-pencil-alt"></i>
                         Edit
                     </button>
-                    <button type="button" class="btn btn-sm btn-danger" onclick="$('#form-delete-$id').submit()">
+                    <button type="button" class="mb-1 btn btn-sm btn-danger" onclick="$('#form-delete-$id').submit()">
                         <i class="fas fa-fw fa-trash"></i>
                         Hapus
                     </button>

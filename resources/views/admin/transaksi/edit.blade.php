@@ -28,7 +28,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Total Harga</label>
-                                <input type="text" class="form-control" name="total_harga" value="{{ $price }}" readonly>
+                                <input type="text" class="form-control" name="total_harga" value="0" required>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Status</label>
@@ -67,6 +67,8 @@
     $(function() {
         let modal = $('#modal-edit');
 
+        let price = {{ $price }};
+
         let customerElement = modal.find("select[name=customer_id]").select2({
 			placeholder: 'Cari',
 			theme: 'bootstrap',
@@ -90,6 +92,11 @@
 				cache: true
 			}
 		});
+
+        customerElement.on('select2:select', e => {
+            let data = e.params.data.item;
+            modal.find("input[name=total_harga]").val(data.total_harga * price);
+        });
 
         window.edit = function(id) {
             let modal = $("#modal-edit");

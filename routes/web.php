@@ -43,5 +43,6 @@ Route::middleware('auth')->group(function () {
 
         Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
         Route::put('settings/{setting}', [SettingController::class, 'update'])->name('settings.update');
+        Route::get('settings/tools/{setting}', [SettingController::class, 'tools'])->name('settings.tools');
     });
 });

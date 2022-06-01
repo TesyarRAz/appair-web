@@ -23,6 +23,11 @@ class TransaksiDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('bukti_bayar', function($row) {
+                if (blank($row->bukti_bayar))
+                {
+                    return 'Tidak Ada';
+                }
+
                 $bukti_bayar = Storage::disk('public')->url($row->bukti_bayar);
                 return <<< blade
                 <img src="$bukti_bayar" alt="$bukti_bayar" width="200px" height="200px" class="img-thumbnail">
@@ -37,11 +42,11 @@ class TransaksiDataTable extends DataTable
                 
                 return <<< blade
                 <div>
-                    <button class="btn btn-sm btn-primary" onclick="edit('$id')">
+                    <button class="mb-1 btn btn-sm btn-primary" onclick="edit('$id')">
                         <i class="fa fa-pencil-alt"></i>
                         Edit
                     </button>
-                    <button class="btn btn-sm btn-danger" onclick="$('#form-delete-$id').submit()">
+                    <button class="mb-1 btn btn-sm btn-danger" onclick="$('#form-delete-$id').submit()">
                         <i class="fas fa-fw fa-trash"></i>
                         Hapus
                     </button>
@@ -67,6 +72,9 @@ class TransaksiDataTable extends DataTable
         ->with('customer', 'customer.user:id,name')
         ->when(request()->has('status'), fn($query) => $query
             ->where('status', request()->status)
+        )
+        ->when(request()->has('from', 'to'), fn($query) => $query
+            ->whereBetween('tanggal_bayar', [request()->from, request()->to])
         );
     }
 
