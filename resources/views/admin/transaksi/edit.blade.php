@@ -1,18 +1,19 @@
-<form action="{{ route('admin.transaksi.store') }}" method="POST" id="modal-create" class="modal fade" autocomplete="off" enctype="multipart/form-data" data-backdrop="static">
+<form method="POST" id="modal-edit" class="modal fade" autocomplete="off" enctype="multipart/form-data" data-backdrop="static">
     @csrf
+    @method('PUT')
     
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Transaksi</h4>
+                <h4 class="modal-title">Edit Transaksi</h4>
                 <button type="button" class="close" data-dismiss="modal">
                     <span>x</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-12 col-lg-6">
-                        <div class="form-group" x-data="{ status: '', keterangan_ditolak: '' }" x-init="$watch('status', value => keterangan_ditolak = (value != 'ditolak' ? '' : keterangan_ditolak))">
+                    <div class="col">
+                        <div class="form-group" x-data="{ status: '', keterangan_ditolak: '' }" x-init="$watch('status', value => keterangan_ditolak = (value != 'ditolak' ? '' : keterangan_ditolak)">
                             <div class="form-group">
                                 <label class="font-weight-bold">Customer</label>
                                 <select name="customer_id" class="form-control" id="edit-customer" required></select>
@@ -44,7 +45,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6">
+                    <div class="col">
                         <div class="form-group" data-toggle="image-preview">
                             <label class="font-weight-bold">Bukti Bayar</label>
                             <input type="file" name="bukti_bayar" class="d-none" data-source="true" accept="image/*">

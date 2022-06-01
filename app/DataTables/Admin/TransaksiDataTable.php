@@ -22,9 +22,30 @@ class TransaksiDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('aksi', function($row) {
+                $id = $row->id;
+                $csrf = csrf_field();
+                $delete = method_field('DELETE');
 
+                $route_delete = route('admin.transaksi.destroy', $id);
+                
+                return <<< blade
+                <div>
+                    <button class="btn btn-sm btn-primary" onclick="edit('$id')">
+                        <i class="fa fa-pencil-alt"></i>
+                        Edit
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="$('#form-delete-$id').submit()">
+                        <i class="fas fa-fw fa-trash"></i>
+                        Hapus
+                    </button>
+                    <form class="d-none" action="$route_delete" method="POST" id="form-delete-$id" onsubmit="return confirm('Yakin ingin hapus transaksi?')">
+                        $csrf
+                        $delete
+                    </form>
+                </div>
+                blade;
             })
-            ->rawColumns(['aksi']);
+            ->rawColumns(['aksi', 'status']);
     }
 
     /**
@@ -74,7 +95,6 @@ class TransaksiDataTable extends DataTable
             Column::make('id')->title('ID'),
             Column::computed('customer.user.name')->title('Customer'),
             Column::make('total_harga')->title('Total Harga'),
-            Column::make('status')->title('Status'),
             Column::computed('aksi')->title('Aksi')->exportable(false)->printable(false)
         ];
     }

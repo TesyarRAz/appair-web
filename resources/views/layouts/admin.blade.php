@@ -32,19 +32,17 @@
 	</a>
 </li>
 
-@if(auth()->user()->hasRole('superadmin'))
 <!-- Heading -->
 <div class="sidebar-heading">
 	Lainnya
 </div>
 <!-- Heading -->
-<li class="nav-item {{ request()->routeIs('superadmin.setting.*') ? 'active' : '' }}">
-	<a class="nav-link" href="{{ route('superadmin.setting.index') }}">
+<li class="nav-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+	<a class="nav-link" href="{{ route('admin.settings.index') }}">
 		<i class="fas fa-fw fa-cog"></i>
-		<span>Persyaratan</span>
+		<span>Pengaturan</span>
 	</a>
 </li>
-@endif
 
 
 <!-- Divider -->

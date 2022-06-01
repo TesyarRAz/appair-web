@@ -20,11 +20,11 @@
                 </div>
                 <div class="form-group">
                     <label class="font-weight-bold">Username</label>
-                    <input name="username" type="text" class="form-control" placeholder="Kosongkan untuk auto generate">
+                    <input name="username" type="text" class="form-control" placeholder="Bila dikosongkan, akan mengikuti email">
                 </div>
                 <div class="form-group">
                     <label class="font-weight-bold">Password</label>
-                    <input name="password" type="text" class="form-control" placeholder="Kosongkan untuk auto generate">
+                    <input name="password" type="text" class="form-control" placeholder="Bila dikosongkan, akan mengikuti username">
                 </div>
             </div>
             <div class="modal-footer justify-content-between">

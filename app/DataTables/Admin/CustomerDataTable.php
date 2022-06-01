@@ -44,7 +44,7 @@ class CustomerDataTable extends DataTable
                         Hapus
                     </button>
 
-                    <form class="d-none" action="$route_delete" method="POST" id="form-delete-$id">
+                    <form class="d-none" action="$route_delete" method="POST" id="form-delete-$id" onsubmit="return confirm('Yakin ingin hapus transaksi?')">
                         $csrf
                         $destroy
                     </form>
@@ -97,7 +97,7 @@ class CustomerDataTable extends DataTable
             Column::make('user.name')->title('Name'),
             Column::make('user.email')->title('Email'),
             Column::make('user.username')->title('Username'),
-            Column::computed('aksi'),
+            Column::computed('aksi')->exportable(false)->printable(false),
         ];
     }
 

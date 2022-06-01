@@ -47,7 +47,7 @@ class InfoDataTable extends DataTable
                     <button type="button" class="btn btn-sm btn-primary" onclick="edit('$id')">Edit</button>
                     <button type="button" class="btn btn-sm btn-danger" onclick="$('#form-delete-$id').submit()">Hapus</button>
 
-                    <form class="d-none" action="$route_delete" method="POST" id="form-delete-$id">
+                    <form class="d-none" action="$route_delete" method="POST" id="form-delete-$id" onsubmit="return confirm('Yakin ingin hapus transaksi?')">
                         $csrf
                         $destroy
                     </form>
@@ -99,7 +99,7 @@ class InfoDataTable extends DataTable
             Column::make('title')->title('Judul'),
             Column::computed('image'),
             Column::computed('url'),
-            Column::computed('aksi'),
+            Column::computed('aksi')->exportable(false)->printable(false),
         ];
     }
 

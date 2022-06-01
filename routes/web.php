@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\InfoController;
 use App\Http\Controllers\Admin\TransaksiController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,5 +40,8 @@ Route::middleware('auth')->group(function () {
         
         Route::get('account', [AccountController::class, 'index'])->name('account.index');
         Route::post('account/password', [AccountController::class, 'password'])->name('account.password');
+
+        Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+        Route::put('settings/{setting}', [SettingController::class, 'update'])->name('settings.update');
     });
 });
