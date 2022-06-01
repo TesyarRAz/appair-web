@@ -53,6 +53,9 @@ class CustomerController extends Controller
     {
         $data = $request->validated();
 
+        if (blank($data['password']))
+            unset($data['password']);
+
         $customer->user->update($data);
 
         alert()->success('Success', 'Customer updated successfully');

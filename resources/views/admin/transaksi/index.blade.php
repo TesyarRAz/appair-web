@@ -3,6 +3,7 @@
 @section('content')
 
 @include('admin.transaksi.create')
+@include('admin.transaksi.edit')
 
 <div class="card shadow">
     <div class="card-header">

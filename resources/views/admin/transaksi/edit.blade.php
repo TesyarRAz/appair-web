@@ -13,10 +13,10 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col">
-                        <div class="form-group" x-data="{ status: '', keterangan_ditolak: '' }" x-init="$watch('status', value => keterangan_ditolak = (value != 'ditolak' ? '' : keterangan_ditolak)">
+                        <div class="form-group" x-data="{ status: '', keterangan_ditolak: '' }" x-init="$watch('status', value => keterangan_ditolak = (value != 'ditolak' ? '' : keterangan_ditolak))">
                             <div class="form-group">
                                 <label class="font-weight-bold">Customer</label>
-                                <select name="customer_id" class="form-control" id="edit-customer" required></select>
+                                <select name="customer_id" class="form-control" required></select>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Tanggal Bayar</label>
@@ -65,9 +65,9 @@
 @push('js')
 <script type="text/javascript">
     $(function() {
-        let modal = $('#modal-create');
+        let modal = $('#modal-edit');
 
-        modal.find("select[name=customer_id]").select2({
+        let customerElement = modal.find("select[name=customer_id]").select2({
 			placeholder: 'Cari',
 			theme: 'bootstrap',
 			ajax: {
@@ -90,6 +90,38 @@
 				cache: true
 			}
 		});
+
+        window.edit = function(id) {
+            let modal = $("#modal-edit");
+
+            let url_target = `{{ url('admin/transaksi') }}/${id}`;
+            $.getJSON(url_target, function(data) {
+                modal.find("input,textarea").val(function(index, value) {
+                    if (this.type == 'checkbox' || this.type == 'radio' || this.type == 'file') {
+                        return value;
+                    }
+                    return ['_method', '_token'].includes(this.name) ? value : (data[this.name]);
+                }).each(function() {
+                    if (this.type == 'checkbox' || this.type == 'radio') {
+                        $(this).prop('checked', Boolean(parseInt(data[this.name])));
+                    } else if (this.type == 'file') {
+                        let src = data[this.name];
+
+                        $(this).siblings('img[data-target]').attr('src', src != null ? '{{ \Storage::disk('public')->url('') }}' + src : '{{ asset('empty-image.png') }}');
+                    }
+                }).trigger("input");
+
+                customerElement.select2("trigger", "select", {
+					data: {
+						text: `${data.customer.user.name} - ${data.id}`,
+						id: data.customer.id,
+					}
+				});
+
+				modal.attr('action', url_target);
+				modal.modal();
+            });
+        }
     })
 </script>
 @endpush

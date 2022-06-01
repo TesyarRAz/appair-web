@@ -32,13 +32,4 @@ class UpdateTransaksiRequest extends FormRequest
             'bukti_bayar' => 'file|image',
         ];
     }
-    
-    protected function passedValidation()
-    {
-        if ($this->hasFile('bukti_bayar')) {
-            $this->merge([
-                'bukti_bayar' => Storage::disk('public')->putFile('images/bukti_bayar', $this->file('bukti_bayar')),
-           ]);
-        }
-    }
 }

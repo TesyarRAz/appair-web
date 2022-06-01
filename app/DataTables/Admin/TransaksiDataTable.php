@@ -3,6 +3,7 @@
 namespace App\DataTables\Admin;
 
 use App\Models\Transaksi;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -21,6 +22,12 @@ class TransaksiDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->editColumn('bukti_bayar', function($row) {
+                $bukti_bayar = Storage::disk('public')->url($row->bukti_bayar);
+                return <<< blade
+                <img src="$bukti_bayar" alt="$bukti_bayar" width="200px" height="200px" class="img-thumbnail">
+                blade;
+            })
             ->addColumn('aksi', function($row) {
                 $id = $row->id;
                 $csrf = csrf_field();
@@ -45,7 +52,7 @@ class TransaksiDataTable extends DataTable
                 </div>
                 blade;
             })
-            ->rawColumns(['aksi', 'status']);
+            ->rawColumns(['aksi', 'bukti_bayar']);
     }
 
     /**
@@ -73,15 +80,13 @@ class TransaksiDataTable extends DataTable
         return $this->builder()
                     ->columns($this->getColumns())
                     ->ajaxWithForm('', '#form-filter-status, #form-filter-tanggal')
-                    ->minifiedAjax()
                     ->dom('Bfrtip')
                     ->orderBy(1)
                     ->buttons(
                         Button::make('print')
                         ->init('$(node).removeClass("dt-button")')
                         ->className('btn btn-sm btn-primary mb-2'),
-                    )
-                    ;
+                    );
     }
 
     /**
@@ -95,6 +100,7 @@ class TransaksiDataTable extends DataTable
             Column::make('id')->title('ID'),
             Column::computed('customer.user.name')->title('Customer'),
             Column::make('total_harga')->title('Total Harga'),
+            Column::computed('bukti_bayar'),
             Column::computed('aksi')->title('Aksi')->exportable(false)->printable(false)
         ];
     }

@@ -15,7 +15,7 @@
                         <div class="form-group" x-data="{ status: '', keterangan_ditolak: '' }" x-init="$watch('status', value => keterangan_ditolak = (value != 'ditolak' ? '' : keterangan_ditolak))">
                             <div class="form-group">
                                 <label class="font-weight-bold">Customer</label>
-                                <select name="customer_id" class="form-control" id="edit-customer" required></select>
+                                <select name="customer_id" class="form-control" required></select>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Tanggal Bayar</label>

@@ -12,7 +12,7 @@ class Transaksi extends Model
     protected $guarded = ['id'];
     protected $casts = [
         'lunas' => 'boolean',
-        'tanggal_bayar' => 'date',
+        'tanggal_bayar' => 'date:Y-m-d',
     ];
 
     protected static function booted()

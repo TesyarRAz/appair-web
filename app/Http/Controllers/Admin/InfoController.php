@@ -6,6 +6,8 @@ use App\DataTables\Admin\InfoDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Info\StoreInfoRequest;
 use App\Http\Requests\Admin\Info\UpdateInfoRequest;
+use App\Http\Requests\Other\CKEditorUploadImageRequest;
+use App\Jobs\UploadFile;
 use App\Models\Info;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -41,6 +43,8 @@ class InfoController extends Controller
     public function store(StoreInfoRequest $request)
     {
         $data = $request->validated();
+
+        $data['image'] = UploadFile::dispatchSync($request->file('image'), 'images/info');
 
         Info::create($data);
 
@@ -82,6 +86,11 @@ class InfoController extends Controller
     {
         $data = $request->validated();
 
+        if ($request->hasFile('image'))
+        {
+            $data['image'] = UploadFile::dispatchSync($request->file('image'), 'images/info');
+        }
+
         $info->update($data);
 
         alert()->success('Info updated successfully.', 'Success');
@@ -104,25 +113,17 @@ class InfoController extends Controller
         return to_route('admin.info.index');
     }
 
-    public function upload(Request $request)
+    public function upload(CKEditorUploadImageRequest $request)
     {
-        $request->validate([
-            'upload' => 'required|file',
-            'CKEditorFuncNum' => 'required|numeric'
-        ]);
+        $data = $request->validated();
 
-        $response = $request->upload
-        ->storeAs(
-            implode('/', [
-                'images',
-                'info',
-            ]),
-            $request->upload->hashName(),
-            'public',
-        );
+        $data['upload'] = dispatch_sync(resolve(UploadFile::class, [
+            'file' => $data['upload'],
+            'folder' => 'images/info',
+        ]));
 
         $function_number = $request->CKEditorFuncNum;
 
-        return response("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($function_number, '" . Storage::disk('public')->url($response) ."', '');</script>");
+        return response("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($function_number, '" . Storage::disk('public')->url($data['upload']) ."', '');</script>");
     }
 }

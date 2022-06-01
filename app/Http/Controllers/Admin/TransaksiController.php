@@ -6,6 +6,7 @@ use App\DataTables\Admin\TransaksiDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Transaksi\StoreTransaksiRequest;
 use App\Http\Requests\Admin\Transaksi\UpdateTransaksiRequest;
+use App\Jobs\UploadFile;
 use App\Models\Transaksi;
 use App\Settings\PriceSetting;
 use Illuminate\Http\Request;
@@ -44,6 +45,8 @@ class TransaksiController extends Controller
     {
         $data = $request->validated();
 
+        $data['bukti_bayar'] = UploadFile::dispatchSync($request->file('bukti_bayar'), 'images/bukti_bayar');
+
         Transaksi::create($data);
 
         alert()->success('Transaksi berhasil ditambahkan.', 'Berhasil');
@@ -59,6 +62,8 @@ class TransaksiController extends Controller
      */
     public function show(Transaksi $transaksi)
     {
+        $transaksi->load('customer.user');
+        
         return response($transaksi);
     }
 
@@ -83,6 +88,11 @@ class TransaksiController extends Controller
     public function update(UpdateTransaksiRequest $request, Transaksi $transaksi)
     {
         $data = $request->validated();
+
+        if ($request->hasFile('bukti_bayar'))
+        {
+            $data['bukti_bayar'] = UploadFile::dispatchSync($request->file('bukti_bayar'), 'images/bukti_bayar');
+        }
 
         $transaksi->update($data);
 

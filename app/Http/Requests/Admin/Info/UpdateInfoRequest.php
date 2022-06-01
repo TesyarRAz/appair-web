@@ -31,13 +31,4 @@ class UpdateInfoRequest extends FormRequest
             'url' => 'bail',
         ];
     }
-
-    protected function passedValidation()
-    {
-        if ($this->hasFile('image')) {
-            $this->merge([
-                'image' => Storage::disk('public')->putFile('images/info', $this->file('image')),
-           ]);
-        }
-    }
 }

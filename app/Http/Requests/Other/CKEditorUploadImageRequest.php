@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Info;
+namespace App\Http\Requests\Other;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Storage;
 
-class StoreInfoRequest extends FormRequest
+class CKEditorUploadImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class StoreInfoRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasRole('admin');
+        return true;
     }
 
     /**
@@ -25,10 +24,8 @@ class StoreInfoRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'image' => 'file|image',
-            'url' => 'bail',
+            'upload' => 'required|file',
+            'CKEditorFuncNum' => 'required|numeric'
         ];
     }
 }
