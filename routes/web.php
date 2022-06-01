@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::any('/logout', [UserController::class, 'logout'])->name('logout');
 
     Route::prefix('admin')->middleware('role:admin')->name('admin.')->group(function () {
-        Route::resource('customer', CustomerController::class);
+        Route::resource('customer', CustomerController::class)->except('create', 'edit');
         Route::get('/customer/{customer}/transaksi', [CustomerController::class, 'transaksi'])->name('customer.transaksi');
         
         Route::resource('info', InfoController::class);

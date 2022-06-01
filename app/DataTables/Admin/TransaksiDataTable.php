@@ -20,7 +20,11 @@ class TransaksiDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables()
-            ->eloquent($query);
+            ->eloquent($query)
+            ->addColumn('aksi', function($row) {
+
+            })
+            ->rawColumns(['aksi']);
     }
 
     /**
@@ -32,7 +36,10 @@ class TransaksiDataTable extends DataTable
     public function query()
     {
         return Transaksi::select('transaksis.*')
-        ->with('customer');
+        ->with('customer', 'customer.user:id,name')
+        ->when(request()->has('status'), fn($query) => $query
+            ->where('status', request()->status)
+        );
     }
 
     /**
@@ -44,6 +51,7 @@ class TransaksiDataTable extends DataTable
     {
         return $this->builder()
                     ->columns($this->getColumns())
+                    ->ajaxWithForm('', '#form-filter-status, #form-filter-tanggal')
                     ->minifiedAjax()
                     ->dom('Bfrtip')
                     ->orderBy(1)
@@ -51,7 +59,8 @@ class TransaksiDataTable extends DataTable
                         Button::make('print')
                         ->init('$(node).removeClass("dt-button")')
                         ->className('btn btn-sm btn-primary mb-2'),
-                    );
+                    )
+                    ;
     }
 
     /**
@@ -63,6 +72,10 @@ class TransaksiDataTable extends DataTable
     {
         return [
             Column::make('id')->title('ID'),
+            Column::computed('customer.user.name')->title('Customer'),
+            Column::make('total_harga')->title('Total Harga'),
+            Column::make('status')->title('Status'),
+            Column::computed('aksi')->title('Aksi')->exportable(false)->printable(false)
         ];
     }
 

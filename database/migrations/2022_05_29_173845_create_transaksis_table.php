@@ -23,11 +23,11 @@ return new class extends Migration
 
             $table->string('bukti_bayar')->nullable();
             $table->enum('status', ['diterima', 'lewati', 'ditolak', 'lunas'])->default('diterima');
-            $table->string('keterangan_ditolak');
+            $table->string('keterangan_ditolak')->nullable();
             
             $table->unsignedInteger('total_bayar')->default(0);
             $table->unsignedInteger('total_harga')->default(0);
-            $table->date('tanggal_bayar');
+            $table->date('tanggal_bayar')->nullable();
             $table->timestamps();
         });
     }

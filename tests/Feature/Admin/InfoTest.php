@@ -5,10 +5,14 @@ namespace Tests\Feature\Admin;
 use App\Models\Info;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class InfoTest extends TestCase
 {
+    use WithFaker;
+
     public function test_index()
     {
         $this->admin()
@@ -34,9 +38,21 @@ class InfoTest extends TestCase
 
         $data = Info::factory()->make()->toArray();
 
+        Storage::fake('public');
+
+        $data['image'] = UploadedFile::fake()->image('image.png');
+        $data['_method'] = 'PUT';
+
         $this->admin()
-            ->put('/admin/info/' . $info->id, $data)
+            ->post('/admin/info/' . $info->id, $data, [
+                'enctype' => 'multipart/form-data',
+            ])
             ->assertSessionHasNoErrors();
+
+        Storage::disk('public')->assertExists('images/info/' . $data['image']->hashName());
+
+        unset($data['image']);
+        unset($data['_method']);
 
         $this->assertDatabaseHas('infos', $data);
     }

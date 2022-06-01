@@ -42,18 +42,6 @@ class InfoController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->image
-            ->storeAs(
-                implode('/', [
-                    'images',
-                    'info',
-                ]),
-                $request->image->hashName(),
-                'public',
-            );
-        }
-
         Info::create($data);
 
         alert()->success('Info created successfully.', 'Success');
@@ -93,18 +81,6 @@ class InfoController extends Controller
     public function update(UpdateInfoRequest $request, Info $info)
     {
         $data = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->image
-            ->storeAs(
-                implode('/', [
-                    'images',
-                    'info',
-                ]),
-                $request->image->hashName(),
-                'public',
-            );
-        }
 
         $info->update($data);
 

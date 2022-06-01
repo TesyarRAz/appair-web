@@ -30,4 +30,12 @@ class StoreCustomerRequest extends FormRequest
             'password' => 'bail',
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'username' => blank($this->username) ? $this->email : $this->username,
+            'password' => bcrypt(blank($this->password) ? $this->username : $this->password),
+        ]);
+    }
 }

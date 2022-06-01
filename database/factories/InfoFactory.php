@@ -19,7 +19,6 @@ class InfoFactory extends Factory
         return [
             'title' => $this->faker->word,
             'description' => $this->faker->word,
-            'image' => $this->faker->imageUrl,
             'url' => $this->faker->word,
         ];
     }

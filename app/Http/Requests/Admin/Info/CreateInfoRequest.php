@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Info;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 
 class StoreInfoRequest extends FormRequest
 {
@@ -29,5 +30,14 @@ class StoreInfoRequest extends FormRequest
             'image' => 'file|image',
             'url' => 'bail',
         ];
+    }
+
+    protected function passedValidation()
+    {
+        if ($this->hasFile('image')) {
+            $this->merge([
+                'image' => Storage::disk('public')->putFile('images/info', $this->file('image')),
+           ]);
+        }
     }
 }

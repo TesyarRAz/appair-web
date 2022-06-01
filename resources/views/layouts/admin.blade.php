@@ -21,8 +21,14 @@
 </li>
 <li class="nav-item {{ request()->routeIs('admin.info.*') ? 'active' : '' }}">
 	<a class="nav-link" href="{{ route('admin.info.index') }}">
-		<i class="fas fa-fw fa-user"></i>
+		<i class="fas fa-fw fa-newspaper"></i>
 		<span>Kelola Info</span>
+	</a>
+</li>
+<li class="nav-item {{ request()->routeIs('admin.transaksi.*') ? 'active' : '' }}">
+	<a class="nav-link" href="{{ route('admin.transaksi.index') }}">
+		<i class="fas fa-fw fa-money-bill-wave"></i>
+		<span>Kelola Transaksi</span>
 	</a>
 </li>
 

@@ -30,4 +30,10 @@ class UpdateCustomerRequest extends FormRequest
             'password' => 'bail',
         ];
     }
+
+    protected function passedValidation()
+    {
+        if (blank($this->password))
+            $this->offsetUnset('password');
+    }
 }

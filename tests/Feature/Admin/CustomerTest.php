@@ -30,6 +30,8 @@ class CustomerTest extends TestCase
             ->assertStatus(302)
             ->assertSessionHasNoErrors();
 
+        unset($data['password']);
+
         $this->assertDatabaseHas('users', $data);
         $this->assertDatabaseHas('customers', [
             'user_id' => User::where('username', $data['username'])->first()->id,
@@ -51,6 +53,8 @@ class CustomerTest extends TestCase
             ->assertRedirect('/admin/customer')
             ->assertSessionHasNoErrors();
 
+        unset($data['password']);
+
         $this->assertDatabaseHas('users', $data);
     }
 
@@ -66,7 +70,7 @@ class CustomerTest extends TestCase
         $this->assertDatabaseMissing('users', [
             'id' => $user->id,
         ]);
-        
+
         $this->assertDatabaseMissing('customers', [
             'user_id' => $user->id,
         ]);

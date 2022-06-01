@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\Admin\TransaksiDataTable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Transaksi\StoreTransaksiRequest;
+use App\Http\Requests\Admin\Transaksi\UpdateTransaksiRequest;
 use App\Models\Transaksi;
+use App\Settings\PriceSetting;
 use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
@@ -16,7 +19,9 @@ class TransaksiController extends Controller
      */
     public function index(TransaksiDataTable $dataTable)
     {
-        return $dataTable->render('admin.transaksi.index');
+        $price = app(PriceSetting::class)->per_kubik;
+
+        return $dataTable->render('admin.transaksi.index', compact('price'));
     }
 
     /**
@@ -35,9 +40,15 @@ class TransaksiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTransaksiRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        Transaksi::create($data);
+
+        alert()->success('Transaksi berhasil ditambahkan.', 'Berhasil');
+
+        return to_route('admin.transaksi.index');
     }
 
     /**
@@ -48,7 +59,7 @@ class TransaksiController extends Controller
      */
     public function show(Transaksi $transaksi)
     {
-        //
+        return response($transaksi);
     }
 
     /**
@@ -69,9 +80,15 @@ class TransaksiController extends Controller
      * @param  \App\Models\Transaksi  $transaksi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Transaksi $transaksi)
+    public function update(UpdateTransaksiRequest $request, Transaksi $transaksi)
     {
-        //
+        $data = $request->validated();
+
+        $transaksi->update($data);
+
+        alert()->success('Transaksi berhasil diubah.', 'Berhasil');
+
+        return to_route('admin.transaksi.index');
     }
 
     /**
@@ -82,6 +99,10 @@ class TransaksiController extends Controller
      */
     public function destroy(Transaksi $transaksi)
     {
-        //
+        $transaksi->delete();
+
+        alert()->success('Transaksi berhasil dihapus.', 'Berhasil');
+
+        return to_route('admin.transaksi.index');
     }
 }
