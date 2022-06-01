@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\Admin\TransaksiDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
@@ -13,9 +14,9 @@ class TransaksiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(TransaksiDataTable $dataTable)
     {
-        //
+        return $dataTable->render('admin.transaksi.index');
     }
 
     /**

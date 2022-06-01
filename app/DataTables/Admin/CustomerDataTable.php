@@ -26,12 +26,23 @@ class CustomerDataTable extends DataTable
                 $csrf = csrf_field();
                 $destroy = method_field('DELETE');
 
+                $route_transaksi = route('admin.customer.transaksi', $id);
                 $route_delete = route('admin.customer.destroy', $id);
 
                 return <<< blade
                 <div>
-                    <button type="button" class="btn btn-sm btn-primary" onclick="edit('$id')">Edit</button>
-                    <button type="button" class="btn btn-sm btn-danger" onclick="$('#form-delete-$id').submit()">Hapus</button>
+                    <a href="$route_transaksi" class="btn btn-sm btn-success">
+                        <i class="fas fa-fw fa-book-open"></i>
+                        Transaksi
+                    </a>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="edit('$id')">
+                        <i class="fas fa-fw fa-pencil-alt"></i>
+                        Edit
+                    </button>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="$('#form-delete-$id').submit()">
+                        <i class="fas fa-fw fa-trash"></i>
+                        Hapus
+                    </button>
 
                     <form class="d-none" action="$route_delete" method="POST" id="form-delete-$id">
                         $csrf

@@ -7,8 +7,8 @@
     <div class="col-lg-4 col-md-6 col-sm-8 h-50">
         <form action="{{ route('postLogin') }}" method="post" class="card" autocomplete="off">
             @csrf
-            <div class="card-header bg-primary">
-                <div class="card-title text-white">
+            <div class="card-header bg-white">
+                <div class="card-title">
                     <h3>Login</h3>
                 </div>
             </div>

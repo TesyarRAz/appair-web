@@ -30,8 +30,11 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('admin')->middleware('role:admin')->name('admin.')->group(function () {
         Route::resource('customer', CustomerController::class);
+        Route::get('/customer/{customer}/transaksi', [CustomerController::class, 'transaksi'])->name('customer.transaksi');
+        
         Route::resource('info', InfoController::class);
         Route::post('/info/ckeditor/upload', [InfoController::class, 'upload'])->name('info.upload');
+
         Route::resource('transaksi', TransaksiController::class);
         
         Route::get('account', [AccountController::class, 'index'])->name('account.index');
