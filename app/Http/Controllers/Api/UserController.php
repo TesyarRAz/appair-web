@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function index()
+    {
+        auth()->user()->load('customer');
+
+        return response(auth()->user());
+    }
+
     public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
@@ -20,11 +27,11 @@ class UserController extends Controller
 
         if (filled($user) && Hash::check($credentials['password'], $user->password))
         {
-            $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+            $token = $user->createToken('AppAir-Mobile')->plainTextToken;
 
-            return response()->json(['token' => $token], 200);
+            return response(['token' => $token], 200);
         }
 
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return response(['error' => 'Unauthorized'], 401);
     }
 }
