@@ -19,7 +19,7 @@ class InfoFactory extends Factory
         return [
             'title' => $this->faker->word,
             'description' => $this->faker->word,
-            'url' => $this->faker->word,
+            'url' => $this->faker->url,
         ];
     }
 }

@@ -23,6 +23,8 @@ class InfoDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('image', function($row) {
+                if (blank($row->image)) return '-';
+
                 $image = Storage::disk('public')->url($row->image);
                 return <<< blade
                 <img src="$image"' class="img-thumbnail" style="width: 200px; height: 200px;">
