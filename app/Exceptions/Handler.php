@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Request;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -45,6 +47,14 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (AuthenticationException $e) {
+            if (request()->expectsJson()) {
+                return response()->json(['error' => 'Unauthenticated.'], 401);
+            }
+    
+            return redirect()->guest(route('login'));
         });
     }
 }

@@ -11,12 +11,9 @@ class TransaksiController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->type == 'check_now')
+        if ($request->type == 'active')
         {
-            $now_transaksi = auth()->user()->customer->transaksis()
-            ->whereMonth('tanggal_bayar', now())
-            ->whereYear('tanggal_bayar', now())
-            ->first();
+            $now_transaksi = auth()->user()->customer->activeTransaksi;
 
             return response()->json([
                 'status' => 'success',
@@ -26,7 +23,7 @@ class TransaksiController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => auth()->user()->customer->transaksis()->latest()->limit(3)->get(),
+            'data' => auth()->user()->customer->transaksis()->whereIn('status', ['lunas', 'lewati'])->latest()->cursorPaginate(10),
         ]);
     }
 

@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\Customer;
+use App\Models\Transaksi;
+use App\Settings\PriceSetting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,14 +33,15 @@ class NormalizeTool implements ShouldQueue
      */
     public function handle()
     {
-        $customers = Customer::whereDoesntHave('transaksis', fn($query) => $query
-            ->whereMonth('tanggal_bayar', now())->whereYear('tanggal_bayar', now())
-        )->get();
+        $tanggal_tempo = now()->endOfMonth();
+        $price = resolve(PriceSetting::class);
+
+        $customers = Customer::whereDoesntHave('activeTransaksi')->where('active', true)->get();
 
         $customers->each(fn($customer) => $customer->transaksis()->create([
-            'tanggal_bayar' => now(),
-            'total_harga' => 0,
-            'status' => 'lewati',
+            'tanggal_tempo' => $tanggal_tempo,
+            'total_harga' => $customer->kubik * $price->per_kubik,
+            'status' => 'belum_bayar',
         ]));
     }
 }

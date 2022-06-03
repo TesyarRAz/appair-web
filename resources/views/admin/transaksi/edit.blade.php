@@ -23,6 +23,10 @@
                                 <input type="date" class="form-control" name="tanggal_bayar" value="{{ now()->format('Y-m-d') }}" required>
                             </div>
                             <div class="form-group">
+                                <label class="font-weight-bold">Tanggal Tempo</label>
+                                <input type="date" class="form-control" name="tanggal_tempo" value="{{ now()->endOfMonth()->format('Y-m-d') }}" required>
+                            </div>
+                            <div class="form-group">
                                 <label class="font-weight-bold">Total Bayar</label>
                                 <input type="text" class="form-control" name="total_bayar" value="{{ $price }}" required>
                             </div>
@@ -33,6 +37,7 @@
                             <div class="form-group">
                                 <label class="font-weight-bold">Status</label>
                                 <select name="status" class="form-control" x-model="status" required>
+                                    <option value="belum_bayar">Belum Bayar</option>
                                     <option value="diterima">Diterima</option>
                                     <option value="ditolak">Ditolak</option>
                                     <option value="lewati">Lewati</option>

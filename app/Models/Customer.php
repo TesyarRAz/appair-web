@@ -16,6 +16,17 @@ class Customer extends Model
         return $this->hasMany(Transaksi::class);
     }
 
+    public function activeTransaksi()
+    {
+        return $this->hasOne(Transaksi::class)
+        ->whereMonth('tanggal_tempo', now())
+        ->whereYear('tanggal_tempo', now())
+        ->orWhere(fn($query) => $query
+            ->whereNot('status', ['lunas', 'lewati'])
+        )
+        ->latest();
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
