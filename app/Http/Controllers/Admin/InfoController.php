@@ -10,6 +10,7 @@ use App\Http\Requests\Other\CKEditorUploadImageRequest;
 use App\Jobs\UploadFile;
 use App\Models\Info;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
 class InfoController extends Controller
@@ -46,7 +47,12 @@ class InfoController extends Controller
 
         $data['image'] = UploadFile::dispatchSync($request->file('image'), 'images/info');
 
-        Info::create($data);
+        $info = Info::create($data);
+
+        if (blank($data['url']))
+        {
+            $info->update(['url' => route('info', Crypt::encryptString($info['id']))]);
+        }
 
         alert()->success('Info created successfully.', 'Success');
 
@@ -89,6 +95,11 @@ class InfoController extends Controller
         if ($request->hasFile('image'))
         {
             $data['image'] = UploadFile::dispatchSync($request->file('image'), 'images/info');
+        }
+        
+        if (blank($data['url']))
+        {
+            $info->update(['url' => route('info', Crypt::encryptString($info['id']))]);
         }
 
         $info->update($data);

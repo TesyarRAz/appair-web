@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\InfoController;
 use App\Http\Controllers\Admin\TransaksiController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\InfoController as PublicInfoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,8 @@ Route::middleware('guest')->group(function () {
     Route::get('login', [UserController::class, 'login'])->name('login');
     Route::post('login', [UserController::class, 'postLogin'])->name('postLogin');
 });
+
+Route::get('/info/{info}', PublicInfoController::class)->name('info');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [UserController::class, 'home'])->name('home');
