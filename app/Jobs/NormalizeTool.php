@@ -34,13 +34,11 @@ class NormalizeTool implements ShouldQueue
     public function handle()
     {
         $tanggal_tempo = now()->endOfMonth();
-        $price = resolve(PriceSetting::class);
 
         $customers = Customer::whereDoesntHave('activeTransaksi')->where('active', true)->get();
 
         $customers->each(fn($customer) => $customer->transaksis()->create([
             'tanggal_tempo' => $tanggal_tempo,
-            'total_harga' => $customer->kubik * $price->per_kubik,
             'status' => 'belum_bayar',
         ]));
     }

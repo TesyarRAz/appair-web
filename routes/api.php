@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\InfoController;
+use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\TransaksiController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -22,14 +23,15 @@ Route::middleware('guest:api')->group(function () {
 });
 
 Route::get('/info', [InfoController::class, 'index']);
+Route::get('/setting', SettingController::class);
 
-Route::middleware('auth:api')->prefix('/user')->group(function () {
+Route::middleware('auth:api')->group(function () {
     Route::middleware('role:customer')->group(function () {
-        Route::get('/', [UserController::class, 'index']);
+        Route::get('/user', [UserController::class, 'index']);
 
         Route::prefix('/transaksi')->group(function () {
             Route::get('/', [TransaksiController::class, 'index']);
-            Route::post('/bayar', [TransaksiController::class, 'store']);
+            Route::post('/bayar', [TransaksiController::class, 'bayar']);
         });
     });
 });

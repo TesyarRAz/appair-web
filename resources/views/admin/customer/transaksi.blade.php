@@ -27,9 +27,9 @@
                     @forelse ($transaksis as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
-                        <td>{{ $item->tanggal_bayar->format('d-m-Y') }}</td>
+                        <td>{{ optional($item->tanggal_bayar)->format('d-m-Y') ?? '-' }}</td>
                         <td>{{ $item->total_bayar }}</td>
-                        <td>{{ $item->total_harga }}</td>
+                        <td>{{ number_format($item->total_harga, 0, ',', '.') }}</td>
                         <td>
                             @if ($item->status == 'diterima')
                                 <span class="badge badge-success">Diterima</span>

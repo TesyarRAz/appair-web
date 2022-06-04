@@ -25,7 +25,6 @@ class StoreCustomerRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'kubik' => 'required|integer|min:0',
             'email' => 'required|string|email|max:255|unique:users',
             'username' => 'max:255|unique:users',
             'password' => 'bail',

@@ -6,8 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class BayarRequest extends FormRequest
 {
-    private $now_transaksi;
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,16 +24,13 @@ class BayarRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'bukti_bayar' => 'required|file|image',
+            'kuantitas' => 'required|numeric|min:1',
         ];
     }
 
     public function getNowTransaksi()
     {
-        return $now_transaksi = auth()->user()->customer->transaksis()
-            ->whereMonth('tanggal_bayar', now())
-            ->whereYear('tanggal_bayar', now())
-            ->where('status', 'lunas')
-            ->first();
+        return auth()->user()->customer->activeTransaksi;
     }
 }

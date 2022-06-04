@@ -33,6 +33,15 @@ class TransaksiDataTable extends DataTable
                 <img src="$bukti_bayar" alt="$bukti_bayar" width="200px" height="200px" class="img-thumbnail">
                 blade;
             })
+            ->editColumn('tanggal_bayar', function($row) {
+                return optional($row->tanggal_bayar)->format('d-m-Y') ?? '-';
+            })
+            ->editColumn('tanggal_tempo', function($row) {
+                return optional($row->tanggal_tempo)->format('d-m-Y') ?? '-';
+            })
+            ->editColumn('total_harga', function($row) {
+                return 'Rp. '.number_format($row->total_harga, 0, ',', '.');
+            })
             ->addColumn('aksi', function($row) {
                 $id = $row->id;
                 $csrf = csrf_field();
@@ -74,7 +83,7 @@ class TransaksiDataTable extends DataTable
             ->where('status', request()->status)
         )
         ->when(request()->has('from', 'to'), fn($query) => $query
-            ->whereBetween('tanggal_bayar', [request()->from, request()->to])
+            ->whereBetween('tanggal_tempo', [request()->from, request()->to])
         );
     }
 
@@ -107,6 +116,8 @@ class TransaksiDataTable extends DataTable
         return [
             Column::make('id')->title('ID'),
             Column::computed('customer.user.name')->title('Customer'),
+            Column::make('tanggal_tempo'),
+            Column::make('tanggal_bayar'),
             Column::make('total_harga')->title('Total Harga'),
             Column::computed('bukti_bayar'),
             Column::computed('aksi')->title('Aksi')->exportable(false)->printable(false)

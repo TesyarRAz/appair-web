@@ -97,11 +97,6 @@
 				cache: true
 			}
 		});
-
-        customerElement.on('select2:select', e => {
-            let data = e.params.data.item;
-            modal.find("input[name=total_harga]").val(data.total_harga * price);
-        });
     })
 </script>
 @endpush

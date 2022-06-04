@@ -92,16 +92,12 @@
 					results: $.map(data, item => ({
 						text: `${item.user.name} - ${item.id}`,
 						id: item.id,
+                        item,
 					}))
 				}),
 				cache: true
 			}
 		});
-
-        customerElement.on('select2:select', e => {
-            let data = e.params.data.item;
-            modal.find("input[name=total_harga]").val(data.total_harga * price);
-        });
 
         window.edit = function(id) {
             let modal = $("#modal-edit");

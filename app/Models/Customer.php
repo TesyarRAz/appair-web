@@ -18,7 +18,7 @@ class Customer extends Model
 
     public function activeTransaksi()
     {
-        return $this->hasOne(Transaksi::class)
+        return $this->hasOne(Transaksi::class)->ofMany()
         ->whereMonth('tanggal_tempo', now())
         ->whereYear('tanggal_tempo', now())
         ->orWhere(fn($query) => $query
