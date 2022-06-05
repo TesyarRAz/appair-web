@@ -13,7 +13,7 @@ class BayarRequest extends FormRequest
      */
     public function authorize()
     {
-        return filled($this->getNowTransaksi());
+        return optional($this->getNowTransaksi())->status == 'lunas';
     }
 
     /**
