@@ -34,7 +34,7 @@ class InfoDataTable extends DataTable
                 $url = $row->url;
 
                 return <<< blade
-                <a href="$url" class="btn btn-link" target="_blank">$url</a>
+                <a href="$url" class="btn btn-link" target="_blank">Buka</a>
                 blade;
             })
             ->addColumn('aksi', function($row) {
