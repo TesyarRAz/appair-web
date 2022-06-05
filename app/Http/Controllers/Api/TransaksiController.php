@@ -34,13 +34,24 @@ class TransaksiController extends Controller
 
         $price = resolve(PriceSetting::class);
 
-        if (filled($now_transaksi) && !in_array($now_transaksi->status, ['lunas', 'lewati']))
+        if (blank($now_transaksi) || !in_array($now_transaksi->status, ['lunas', 'lewati']))
         {
-            $now_transaksi->update([
+            $data = [
                 'bukti_bayar' => UploadFile::dispatchSync($request->file('bukti_bayar'), 'images/bukti_bayar'),
                 'total_harga' => $request->kuantitas * $price->per_kubik,
                 'status' => 'diterima',
-            ]);
+            ];
+
+            if (filled($now_transaksi))
+            {
+                $now_transaksi->update($data);
+            }
+            else
+            {
+                auth()->user()->customer->transaksis()->create($data + [
+                    'tanggal_tempo' => now()->endOfMonth(),
+                ]);
+            }
 
             return response()->json([
                 'status' => 'success',
