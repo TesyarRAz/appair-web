@@ -5,15 +5,14 @@
 @section('content')
 <div class="row justify-content-center align-items-center vh-100 m-0">
     <div class="col-lg-4 col-md-6 col-sm-8 h-50">
+        <h2 class="text-center font-weight-bold mb-4">App Air</h2>
         <form action="{{ route('postLogin') }}" method="post" class="card" autocomplete="off">
             @csrf
-            <div class="card-header bg-white">
-                <div class="card-title">
-                    <h3>Login</h3>
-                </div>
-            </div>
-            <div class="card-body mt-3">
+            <div class="card-body">
+                <h3 class="card-title mb-5">Login</h3>
+
                 <div class="form-group">
+                    <label>Username / Email</label>
                     <div class="input-group">
                         <input type="text" class="form-control @error('username_or_email') is-invalid @enderror" name="username_or_email" placeholder="Username" required>
                         <div class="input-group-append">
@@ -27,6 +26,7 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label>Password</label>
                     <div class="input-group" data-toggle="password-preview">
                         <input class="form-control @error('password') is-invalid @enderror" name="password" class="form-control" placeholder="Password" type="password" required data-source>
                         <div role="button" class="input-group-append" data-target>
@@ -37,6 +37,12 @@
                         @error('password')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                        <label for="remember-me" class="form-check-label">Remember Me</label>
                     </div>
                 </div>
             </div>
