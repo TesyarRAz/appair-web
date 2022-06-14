@@ -31,9 +31,13 @@ class UpdateCustomerRequest extends FormRequest
         ];
     }
 
-    protected function passedValidation()
+    protected function prepareForValidation()
     {
-        if (blank($this->password))
-            $this->offsetUnset('password');
+        if (filled($this->password))
+        {
+            $this->merge([
+                'password' => bcrypt($this->password),
+            ]);
+        }
     }
 }
