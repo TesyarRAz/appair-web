@@ -25,7 +25,8 @@ class InfoDataTable extends DataTable
             ->editColumn('image', function($row) {
                 if (blank($row->image)) return '-';
 
-                $image = Storage::disk('public')->url($row->image);
+                $image = $row->image;
+
                 return <<< blade
                 <img src="$image"' class="img-thumbnail" style="width: 200px; height: 200px;">
                 blade;
