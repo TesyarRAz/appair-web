@@ -72,7 +72,7 @@
                     } else if (this.type == 'file') {
                         let src = data[this.name];
 
-                        $(this).siblings('img[data-target]').attr('src', src != null ? '{{ \Storage::disk('public')->url('') }}' + src : '{{ asset('empty-image.png') }}');
+                        $(this).siblings('img[data-target]').attr('src', src != null ? src : '{{ asset('empty-image.png') }}');
                     }
                 }).trigger("input");
 
