@@ -34,4 +34,24 @@ class UserController extends Controller
 
         return response(['error' => 'Unauthorized'], 401);
     }
+    
+    public function changePassword(Request $request)
+    {
+        $data = $request->validate([ 
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed',
+        ]);
+
+        $user = $request->user();
+
+        if (Hash::check($data['old_password'], $user->password))
+        {
+            $user->password = Hash::make($data['new_password']);
+            $user->save();
+
+            return response(['message' => 'Password changed successfully.'], 200);
+        }
+
+        return response(['error' => 'Old password is incorrect.'], 401);
+    }
 }

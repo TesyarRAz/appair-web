@@ -28,6 +28,7 @@ Route::get('/setting', SettingController::class);
 Route::middleware('auth:api')->group(function () {
     Route::middleware('role:customer')->group(function () {
         Route::get('/user', [UserController::class, 'index']);
+        Route::post('/user/change-password', [UserController::class, 'changePassword']);
 
         Route::prefix('/transaksi')->group(function () {
             Route::get('/', [TransaksiController::class, 'index']);
