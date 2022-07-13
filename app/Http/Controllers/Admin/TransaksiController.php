@@ -45,7 +45,10 @@ class TransaksiController extends Controller
     {
         $data = $request->validated();
 
-        $data['bukti_bayar'] = UploadFile::dispatchSync($request->file('bukti_bayar'), 'images/bukti_bayar');
+        if ($request->hasFile('bukti_bayar'))
+        {
+            $data['bukti_bayar'] = UploadFile::dispatchSync($request->file('bukti_bayar'), 'images/bukti_bayar');
+        }
 
         Transaksi::create($data);
 

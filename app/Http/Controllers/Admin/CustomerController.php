@@ -23,6 +23,9 @@ class CustomerController extends Controller
                     ->whereHas('user', function($query) use ($request) {
                         $query->where('name', 'like', '%' . $request->search . '%');
                     })
+                    ->when($request->with == 'latestTransaksi', function($query) {
+                        $query->with('latestTransaksi');
+                    })
                     ->get()
             );
         }

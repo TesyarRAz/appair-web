@@ -9,8 +9,6 @@
         <form action="{{ route('postLogin') }}" method="post" class="card" autocomplete="off">
             @csrf
             <div class="card-body">
-                <h3 class="card-title mb-5">Login</h3>
-
                 <div class="form-group">
                     <label>Username / Email</label>
                     <div class="input-group">

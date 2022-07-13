@@ -32,4 +32,9 @@ class Transaksi extends Model
     {
         return $this->belongsTo(User::class, 'admin_id');
     }
+
+    public function beforeThis()
+    {
+        return Transaksi::latest('tanggal_tempo')->whereDate('tanggal_tempo', '<', $this->tanggal_tempo)->whereNot('id', $this->id)->first();
+    }
 }

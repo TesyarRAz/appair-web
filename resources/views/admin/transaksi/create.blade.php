@@ -50,10 +50,23 @@
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Meteran Awal</label>
+                            <input type="text" class="form-control" name="meteran_awal" value="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Meteran Akhir</label>
+                            <input type="text" class="form-control" name="meteran_akhir" value="0" required>
+                        </div>
                         <div class="form-group" data-toggle="image-preview">
                             <label class="font-weight-bold">Bukti Bayar</label>
                             <input type="file" name="bukti_bayar" class="d-none" data-source="true" accept="image/*">
                             <img src="{{ asset('empty-image.png') }}" role="button" class="d-block img-thumbnail" width="300" height="300" data-target="true">
+                        </div>
+                        <div class="form-group">
+                            <span class="text-muted font-italic small">Catatan</span>
+                            <br>
+                            <span class="small">Harga Per Kubik : Rp. {{ number_format($price, 0, ',', '.') }}</span>
                         </div>
                     </div>
                 </div>
@@ -69,15 +82,15 @@
 @push('js')
 <script type="text/javascript">
     $(function() {
-        let modal = $('#modal-create');
+        const modal = $('#modal-create');
 
-        let price = {{ $price }};
+        const price = {{ $price }};
 
-        let customerElement = modal.find("select[name=customer_id]").select2({
+        const customerElement = modal.find("select[name=customer_id]").select2({
 			placeholder: 'Cari',
 			theme: 'bootstrap',
 			ajax: {
-				url: '{{ route('admin.customer.index') }}',
+				url: '{{ route('admin.customer.index', ['with' => 'latestTransaksi']) }}',
 				type: 'get',
 				dataType: 'json',
 				delay: 250,
@@ -96,6 +109,12 @@
 				}),
 				cache: true
 			}
+		});
+
+        customerElement.on('select2:select', e => {
+			const customer = e.params.data.item;
+            
+            modal.find('input[name=meteran_awal]').val(customer.latest_transaksi?.meteran_akhir || 0)
 		});
     })
 </script>

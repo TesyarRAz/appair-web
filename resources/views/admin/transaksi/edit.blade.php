@@ -51,10 +51,23 @@
                         </div>
                     </div>
                     <div class="col">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Meteran Awal</label>
+                            <input type="text" class="form-control" name="meteran_awal" value="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Meteran Akhir</label>
+                            <input type="text" class="form-control" name="meteran_akhir" value="0" required>
+                        </div>
                         <div class="form-group" data-toggle="image-preview">
                             <label class="font-weight-bold">Bukti Bayar</label>
                             <input type="file" name="bukti_bayar" class="d-none" data-source="true" accept="image/*">
                             <img src="{{ asset('empty-image.png') }}" role="button" class="d-block img-thumbnail" width="300" height="300" data-target="true">
+                        </div>
+                        <div class="form-group">
+                            <span class="text-muted font-italic small">Catatan</span>
+                            <br>
+                            <span class="small">Harga Per Kubik : Rp. {{ number_format($price, 0, ',', '.') }}</span>
                         </div>
                     </div>
                 </div>

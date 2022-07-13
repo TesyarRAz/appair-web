@@ -27,6 +27,12 @@ class Customer extends Model
         ->latest();
     }
 
+    public function latestTransaksi()
+    {
+        return $this->hasOne(Transaksi::class)->ofMany('tanggal_tempo')
+        ->whereIn('status', ['lunas', 'lewati']);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

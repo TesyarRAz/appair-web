@@ -31,14 +31,19 @@ class TransaksiController extends Controller
     public function bayar(BayarRequest $request)
     {
         $now_transaksi = $request->getNowTransaksi();
+        $before_transaksi = $now_transaksi->beforeThis();
 
         $price = resolve(PriceSetting::class);
 
         if (blank($now_transaksi) || !in_array($now_transaksi->status, ['lunas', 'lewati']))
         {
+            abort_if(blank($before_transaksi) || $before_transaksi->meteran_akhir > $before_transaksi->meteran_awal, 403, "Meteran awal tidak mungkin kurang dari meteran akhir");
+
             $data = [
                 'bukti_bayar' => UploadFile::dispatchSync($request->file('bukti_bayar'), 'images/bukti_bayar'),
-                'total_harga' => $request->kuantitas * $price->per_kubik,
+                'meteran_awal' => $before_transaksi->meteran_akhir,
+                'meteran_akhir' => $request->meteran_akhir,
+                'total_harga' => ($before_transaksi->meteran_akhir - $request->meteran_awal) * $price->per_kubik,
                 'status' => 'diterima',
             ];
 

@@ -31,6 +31,8 @@ class UpdateTransaksiRequest extends FormRequest
             'total_bayar' => 'required|numeric',
             'status' => 'required|in:belum_bayar,diterima,lewati,ditolak,lunas',
             'bukti_bayar' => 'file|image',
+            'meteran_awal' => 'required|numeric',
+            'meteran_akhir' => 'required|numeric',
         ];
     }
 }

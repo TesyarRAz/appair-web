@@ -24,12 +24,15 @@ return new class extends Migration
             $table->string('bukti_bayar')->nullable();
             $table->enum('status', ['belum_bayar', 'diterima', 'lewati', 'ditolak', 'lunas'])->default('belum_bayar');
             $table->string('keterangan_ditolak')->nullable();
-            
+
             $table->unsignedInteger('total_bayar')->default(0);
             $table->unsignedInteger('total_harga')->default(0);
-            
+
             $table->date('tanggal_bayar')->nullable();
             $table->date('tanggal_tempo')->nullable();
+
+            $table->unsignedBigInteger("meteran_awal");
+            $table->unsignedBigInteger("meteran_akhir");
 
             $table->timestamps();
         });
