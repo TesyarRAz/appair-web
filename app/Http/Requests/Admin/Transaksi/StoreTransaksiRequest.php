@@ -35,4 +35,11 @@ class StoreTransaksiRequest extends FormRequest
             'meteran_akhir' => 'required|numeric',
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'admin_id' => auth()->id(),
+        ]);
+    }
 }

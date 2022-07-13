@@ -21,15 +21,12 @@ class Customer extends Model
         return $this->hasOne(Transaksi::class)->ofMany()
         ->whereMonth('tanggal_tempo', now())
         ->whereYear('tanggal_tempo', now())
-        ->orWhere(fn($query) => $query
-            ->whereNot('status', ['lunas', 'lewati'])
-        )
-        ->latest();
+        ->whereNot('status', ['lunas', 'lewati']);
     }
 
     public function latestTransaksi()
     {
-        return $this->hasOne(Transaksi::class)->ofMany('tanggal_tempo')
+        return $this->hasOne(Transaksi::class)
         ->whereIn('status', ['lunas', 'lewati']);
     }
 

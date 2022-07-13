@@ -35,6 +35,9 @@ class Transaksi extends Model
 
     public function beforeThis()
     {
-        return Transaksi::latest('tanggal_tempo')->whereDate('tanggal_tempo', '<', $this->tanggal_tempo)->whereNot('id', $this->id)->first();
+        return Transaksi::latest('tanggal_tempo')
+        ->whereDate('tanggal_tempo', '<', $this->tanggal_tempo)
+        ->whereNot('id', $this->id)
+        ->first();
     }
 }

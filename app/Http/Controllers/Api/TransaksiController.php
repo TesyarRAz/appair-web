@@ -23,6 +23,16 @@ class TransaksiController extends Controller
             ]);
         }
 
+        if ($request->type == 'latest')
+        {
+            $latest_transaksi = auth()->user()->customer->latestTransaksi;
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $latest_transaksi,
+            ]);
+        }
+
         return response()->json(
             auth()->user()->customer->transaksis()->whereIn('status', ['lunas', 'lewati'])->latest()->cursorPaginate(10),
         );
@@ -37,13 +47,13 @@ class TransaksiController extends Controller
 
         if (blank($now_transaksi) || !in_array($now_transaksi->status, ['lunas', 'lewati']))
         {
-            abort_if(blank($before_transaksi) || $before_transaksi->meteran_akhir > $before_transaksi->meteran_awal, 403, "Meteran awal tidak mungkin kurang dari meteran akhir");
+            abort_if(blank($before_transaksi) || $before_transaksi->meteran_akhir < $before_transaksi->meteran_awal, 403, "Meteran awal tidak mungkin lebih dari meteran akhir");
 
             $data = [
                 'bukti_bayar' => UploadFile::dispatchSync($request->file('bukti_bayar'), 'images/bukti_bayar'),
                 'meteran_awal' => $before_transaksi->meteran_akhir,
                 'meteran_akhir' => $request->meteran_akhir,
-                'total_harga' => ($before_transaksi->meteran_akhir - $request->meteran_awal) * $price->per_kubik,
+                'total_harga' => ($before_transaksi->meteran_akhir - $request->meteran_akhir) * $price->per_kubik,
                 'status' => 'diterima',
             ];
 
