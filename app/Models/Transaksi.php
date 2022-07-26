@@ -14,6 +14,8 @@ class Transaksi extends Model
         'lunas' => 'boolean',
         'tanggal_bayar' => 'date:Y-m-d',
         'tanggal_tempo' => 'date:Y-m-d',
+        'meteran_awal' => 'integer',
+        'meteran_akhir' => 'integer',
     ];
 
     protected static function booted()

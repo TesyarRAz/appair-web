@@ -25,7 +25,7 @@ class BayarRequest extends FormRequest
     {
         return [
             'bukti_bayar' => 'required|file|image',
-            'meteran_akhir' => 'required|number'
+            'meteran_akhir' => 'required|numeric'
         ];
     }
 
