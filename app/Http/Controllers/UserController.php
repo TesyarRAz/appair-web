@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\LoginRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Settings\GeneralSetting;
+use App\Settings\StyleSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,7 +19,10 @@ class UserController extends Controller
 
     public function login()
     {
-        return view('auth.login');
+        return view('auth.login', [
+            'general' => resolve(GeneralSetting::class),
+            'style' => resolve(StyleSetting::class),
+        ]);
     }
 
     public function postLogin(LoginRequest $request)

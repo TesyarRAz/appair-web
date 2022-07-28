@@ -5,7 +5,7 @@
 @section('content')
 <div class="row justify-content-center align-items-center vh-100 m-0">
     <div class="col-lg-4 col-md-6 col-sm-8 h-50">
-        <h2 class="text-center font-weight-bold mb-4">App Air</h2>
+        <h2 class="text-center font-weight-bold mb-4">{{ $general->app_name }}</h2>
         <form action="{{ route('postLogin') }}" method="post" class="card" autocomplete="off">
             @csrf
             <div class="card-body">

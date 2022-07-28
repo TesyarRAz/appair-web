@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\InfoController;
 use App\Http\Controllers\Admin\TransaksiController;
-use App\Http\Controllers\SettingController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InfoController as PublicInfoController;
 use Illuminate\Support\Facades\Route;

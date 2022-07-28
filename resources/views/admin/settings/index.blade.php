@@ -9,6 +9,9 @@
 		@include('admin.settings.price')
 	</div>
 	<div class="col-lg-4 col-md-6">
+		@include('admin.settings.style')
+	</div>
+	<div class="col-lg-4 col-md-6">
 		@include('admin.settings.tools')
 	</div>
 </div>

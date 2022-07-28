@@ -8,6 +8,7 @@ return [
      */
     'settings' => [
         '\App\Settings\PriceSetting',
+        '\App\Settings\StyleSetting',
     ],
 
     /*

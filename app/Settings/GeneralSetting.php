@@ -6,7 +6,8 @@ use Spatie\LaravelSettings\Settings;
 
 class GeneralSetting extends Settings
 {
-    public $start_date;
+    public ?string $start_date = '';
+    public ?string $app_name = 'App Air';
 
     public static function group(): string
     {

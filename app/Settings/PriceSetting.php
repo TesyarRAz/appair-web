@@ -6,7 +6,7 @@ use Spatie\LaravelSettings\Settings;
 
 class PriceSetting extends Settings
 {
-    public $per_kubik;
+    public ?int $per_kubik = 0;
 
     public static function group(): string
     {
