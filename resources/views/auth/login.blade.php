@@ -2,12 +2,31 @@
 
 @section('title', 'Login')
 
+@push('css')
+<style type="text/css">
+    body {
+        @if ($style->bg_type == 'color')
+            background-color: {{ $style->bg_color }};
+        @else
+            background-image: url('{{ \Storage::disk('public')->url($style->bg_image) }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        @endif
+
+        height:100vh;
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="row justify-content-center align-items-center vh-100 m-0">
     <div class="col-lg-4 col-md-6 col-sm-8 h-50">
-        <h2 class="text-center font-weight-bold mb-4">{{ $general->app_name }}</h2>
         <form action="{{ route('postLogin') }}" method="post" class="card" autocomplete="off">
             @csrf
+            <div class="card-header bg-white">
+                <h2 class="text-center font-weight-bold mb-4">{{ $general->app_name }}</h2>
+            </div>
             <div class="card-body">
                 <div class="form-group">
                     <label>Username / Email</label>

@@ -13,7 +13,7 @@ class BayarRequest extends FormRequest
      */
     public function authorize()
     {
-        return !in_array(optional($this->getNowTransaksi())->status, ['lunas', 'lewati']);
+        return blank(auth()->user()->customer->activeTransaksi);
     }
 
     /**
@@ -27,10 +27,5 @@ class BayarRequest extends FormRequest
             'bukti_bayar' => 'required|file|image',
             'meteran_akhir' => 'required|numeric'
         ];
-    }
-
-    public function getNowTransaksi()
-    {
-        return auth()->user()->customer->activeTransaksi;
     }
 }

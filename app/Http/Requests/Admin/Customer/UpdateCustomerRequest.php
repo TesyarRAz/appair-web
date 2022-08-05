@@ -25,6 +25,8 @@ class UpdateCustomerRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'rt' => 'nullable|integer',
+            'meteran_pertama' => 'required|integer',
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'password' => 'bail',

@@ -26,7 +26,7 @@ class UpdateStyleRequest extends FormRequest
         return [
             'app_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'bg_type' => 'required|in:color,image',
-            'bg_color' => 'required_if:bg_type,color|regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/',
+            'bg_color' => 'required_if:bg_type,color',
             'bg_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }

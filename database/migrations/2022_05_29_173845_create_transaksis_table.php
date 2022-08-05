@@ -25,6 +25,7 @@ return new class extends Migration
             $table->enum('status', ['belum_bayar', 'diterima', 'lewati', 'ditolak', 'lunas'])->default('belum_bayar');
             $table->string('keterangan_ditolak')->nullable();
 
+            $table->unsignedInteger('harga_per_kubik')->default(0);
             $table->unsignedInteger('total_bayar')->default(0);
             $table->unsignedInteger('total_harga')->default(0);
 

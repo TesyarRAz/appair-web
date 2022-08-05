@@ -42,22 +42,23 @@ class TransaksiController extends Controller
     public function bayar(BayarRequest $request)
     {
         $now_transaksi = $request->user()->customer->activeTransaksi;
-        $before_transaksi = $request->user()->customer->latestTransaksi;
+
+        $last_meter = $request->user()->customer->last_meter;
 
         $price = resolve(PriceSetting::class);
 
         if (blank($now_transaksi) || !in_array($now_transaksi->status, ['lunas', 'lewati']))
         {
-            abort_if(blank($before_transaksi), 403, "Transaksi sebelumnya tidak ada");
-            abort_if($request->meteran_akhir < $before_transaksi->meteran_awal, 403, "Meteran awal tidak mungkin lebih dari meteran akhir");
+            // abort_if(blank($before_transaksi), 403, "Transaksi sebelumnya tidak ada");
+            abort_if($request->meteran_akhir < $last_meter, 403, "Meteran akhir tidak mungkin kurang dari meteran awal");
 
-            Log::debug('checker : ' . (($request->meteran_akhir - $before_transaksi->meteran_akhir) * $price->per_kubik));
+            Log::debug('checker : ' . (($request->meteran_akhir - $last_meter) * $price->per_kubik));
 
             $data = [
                 'bukti_bayar' => UploadFile::dispatchSync($request->file('bukti_bayar'), 'images/bukti_bayar'),
-                'meteran_awal' => $before_transaksi->meteran_akhir,
+                'meteran_awal' => $last_meter,
                 'meteran_akhir' => $request->meteran_akhir,
-                'total_harga' => ($request->meteran_akhir - $before_transaksi->meteran_akhir) * $price->per_kubik,
+                'total_harga' => ($request->meteran_akhir - $last_meter) * $price->per_kubik,
                 'status' => 'diterima',
             ];
 

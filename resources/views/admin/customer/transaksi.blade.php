@@ -20,6 +20,8 @@
                         <th>Tanggal</th>
                         <th>Total Bayar</th>
                         <th>Total Harga</th>
+                        <th>Meteran Akhir</th>
+                        <th>Total Penggunaan</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -30,6 +32,8 @@
                         <td>{{ optional($item->tanggal_bayar)->format('d-m-Y') ?? '-' }}</td>
                         <td>{{ $item->total_bayar }}</td>
                         <td>{{ number_format($item->total_harga, 0, ',', '.') }}</td>
+                        <td>{{ $item->meteran_akhir }}</td>
+                        <td>{{ $item->meteran_akhir - $item->meteran_awal }}</td>
                         <td>
                             @if ($item->status == 'diterima')
                                 <span class="badge badge-success">Diterima</span>

@@ -18,16 +18,28 @@ class Customer extends Model
 
     public function activeTransaksi()
     {
+        return $this->currentTransaksi()
+        ->whereNotIn('status', ['lunas', 'lewati']);
+    }
+
+    public function currentTransaksi()
+    {
         return $this->hasOne(Transaksi::class)->ofMany()
         ->whereMonth('tanggal_tempo', now())
-        ->whereYear('tanggal_tempo', now())
-        ->whereNot('status', ['lunas', 'lewati']);
+        ->whereYear('tanggal_tempo', now());
     }
 
     public function latestTransaksi()
     {
-        return $this->hasOne(Transaksi::class)
-        ->whereIn('status', ['lunas', 'lewati']);
+        return $this->hasOne(Transaksi::class)->ofMany()
+        ->when($this->currentTransaksi, fn($query) => $query
+            ->whereNotIn(app(Transaksi::class)->getKeyName(), [$this->currentTransaksi->id])
+        );
+    }
+
+    public function getLastMeterAttribute()
+    {
+        return optional($this->latestTransaksi)->meteran_akhir ?? $this->meteran_pertama;
     }
 
     public function user()

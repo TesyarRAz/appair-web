@@ -11,6 +11,7 @@ use App\Models\Customer;
 use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class CustomerController extends Controller
 {
@@ -37,9 +38,18 @@ class CustomerController extends Controller
     {
         $data = $request->validated();
 
+        $customer_data = Arr::only($data, [
+            'rt',
+            'meteran_akhir',
+        ]);
+
+        Arr::forget($data, [
+            'rt',
+        ]);
+
         $user = User::create($data);
         $user->assignRole('customer');
-        $user->customer()->create();
+        $user->customer()->create($customer_data);
 
         alert()->success('Success', 'Customer created successfully');
 
@@ -60,7 +70,17 @@ class CustomerController extends Controller
         if (blank($data['password']))
             unset($data['password']);
 
+
+        $customer_data = Arr::only($data, [
+            'rt',
+        ]);
+
+        Arr::forget($data, [
+            'rt',
+        ]);
+
         $customer->user->update($data);
+        $customer->update($customer_data);
 
         alert()->success('Success', 'Customer updated successfully');
 
@@ -100,9 +120,9 @@ class CustomerController extends Controller
             
             $cells = explode($request->delimiter, trim($row));
 
-            if (count($cells) < 2)
+            if (count($cells) < 3)
             {
-                return back()->with('status', 'Cell CSV minimal 2, untuk nama dan email');
+                return back()->with('status', 'Cell CSV minimal 2, untuk nama, rt dan meteran akhir');
             }
             
             // Filter Jika Rows Kosong, Bisa diskip
@@ -120,10 +140,12 @@ class CustomerController extends Controller
 
             $result[] = [
                 'name' => trim($cells[0]),
-                'email' => trim($cells[1]),
+                'rt' => trim($cells[1]),
+                'meteran_pertama' => trim($cells[2]),
                 'opsional' => [
-                    'username' => isset($cells[2]) && !empty($cells[2]) ? $cells[2] : null,
-                    'password' => isset($cells[3]) && !empty($cells[3]) ? $cells[3] : null,
+                    'email' => isset($cells[3]) && !empty($cells[3]) ? $cells[3] : null,
+                    'username' => isset($cells[4]) && !empty($cells[4]) ? $cells[4] : null,
+                    'password' => isset($cells[5]) && !empty($cells[5]) ? $cells[5] : null,
                 ]
             ];
         }
@@ -132,16 +154,19 @@ class CustomerController extends Controller
         {
             $user = User::create([
                 'name' => $d['name'],
-                'email' => $d['email'],
-                'username' => $d['opsional']['username'] ?? ($d['opsional']['email'] ?? str()->random(6)),
-                'password' => $d['opsional']['password'] ?? ($d['opsional']['email'] ?? str()->random(6)),
+                'email' => $d['opsional']['email'],
+                'username' => $d['opsional']['username'] ?? ($d['opsional']['email'] ?? str()->random(5)),
+                'password' => $d['opsional']['password'] ?? ($d['opsional']['email'] ?? bcrypt('123456')),
             ]);
 
             $user->assignRole('customer');
 
-            $user->customer()->create();
+            $user->customer()->create([
+                'rt' => $d['rt'],
+                'meteran_pertama' => $d['meteran_pertama'],
+            ]);
         }
 
-        return back()->with('status', 'Berhasil import guru');
+        return back()->with('status', 'Berhasil import customer');
     }
 }

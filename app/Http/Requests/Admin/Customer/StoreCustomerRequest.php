@@ -25,6 +25,8 @@ class StoreCustomerRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'rt' => 'nullable|integer',
+            'meteran_pertama' => 'required|integer',
             'email' => 'required|string|email|max:255|unique:users',
             'username' => 'max:255|unique:users',
             'password' => 'bail',

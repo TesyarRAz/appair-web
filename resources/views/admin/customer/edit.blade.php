@@ -16,8 +16,16 @@
                     <input name="name" type="text" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label class="font-weight-bold">Email <span class="text-danger">*</span></label>
-                    <input name="email" type="email" class="form-control" required>
+                    <label class="font-weight-bold">RT</label>
+                    <input name="rt" type="number" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Meteran Pertama</label>
+                    <input name="meteran_pertama" type="number" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Email</label>
+                    <input name="email" type="email" class="form-control">
                 </div>
                 <div class="form-group">
                     <label class="font-weight-bold">Username</label>

@@ -40,7 +40,7 @@ class NormalizeTool implements ShouldQueue
         $customers->each(fn($customer) => $customer->transaksis()->create([
             'tanggal_tempo' => $tanggal_tempo,
             'status' => 'belum_bayar',
-            'meteran_awal' => $customer->latestTransaksi->meteran_akhir,
+            'meteran_awal' => optional($customer->latestTransaksi)->meteran_akhir ?? $customer->meteran_pertama,
             'meteran_akhir' => 0,
         ]));
     }

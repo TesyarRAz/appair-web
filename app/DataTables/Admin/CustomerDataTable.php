@@ -95,6 +95,8 @@ class CustomerDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('user.name')->title('Name'),
+            Column::make('rt')->title('RT'),
+            Column::make('meteran_pertama')->title('Meteran Pertama'),
             Column::make('user.email')->title('Email'),
             Column::make('user.username')->title('Username'),
             Column::computed('aksi')->exportable(false)->printable(false),

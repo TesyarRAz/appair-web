@@ -17,7 +17,7 @@
 
     @stack('css')
 </head>
-<body class="vh-100">
+<body class="vh-100 @yield('body-class')">
     <div class="container-fluid">
         @yield('content')
     </div>

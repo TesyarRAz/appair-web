@@ -16,8 +16,10 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->boolean('active')->default(true);
+            $table->integer('rt')->nullable();
+            $table->integer('meteran_pertama')->default(0);
             $table->timestamps();
         });
     }

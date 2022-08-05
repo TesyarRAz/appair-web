@@ -12,9 +12,11 @@ class UserController extends Controller
 {
     public function index()
     {
-        auth()->user()->load('customer');
+        $user = auth()->user();
 
-        return response(auth()->user());
+        $user->customer->append('last_meter');
+
+        return response($user);
     }
 
     public function login(LoginRequest $request)
@@ -27,7 +29,7 @@ class UserController extends Controller
 
         if (filled($user) && Hash::check($credentials['password'], $user->password))
         {
-            $token = $user->createToken('AppAir-Mobile')->plainTextToken;
+            $token = $user->createToken('mobile')->plainTextToken;
 
             return response(['token' => $token], 200);
         }
