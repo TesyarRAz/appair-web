@@ -174,6 +174,8 @@ class CustomerController extends Controller
             ]);
         }
 
+        NormalizeTool::dispatch();
+
         return back()->with('status', 'Berhasil import customer');
     }
 }
