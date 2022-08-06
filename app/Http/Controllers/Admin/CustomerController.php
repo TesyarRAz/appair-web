@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Customer\ImportCustomerRequest;
 use App\Http\Requests\Admin\Customer\StoreCustomerRequest;
 use App\Http\Requests\Admin\Customer\UpdateCustomerRequest;
+use App\Jobs\NormalizeTool;
 use App\Models\Customer;
 use App\Models\Transaksi;
 use App\Models\User;
@@ -52,6 +53,8 @@ class CustomerController extends Controller
         $user = User::create($data);
         $user->assignRole('customer');
         $user->customer()->create($customer_data);
+
+        NormalizeTool::dispatch();
 
         alert()->success('Success', 'Customer created successfully');
 
