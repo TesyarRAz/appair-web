@@ -41,11 +41,12 @@ class CustomerController extends Controller
 
         $customer_data = Arr::only($data, [
             'rt',
-            'meteran_akhir',
+            'meteran_pertama',
         ]);
 
         Arr::forget($data, [
             'rt',
+            'meteran_pertama',
         ]);
 
         $user = User::create($data);
@@ -74,10 +75,12 @@ class CustomerController extends Controller
 
         $customer_data = Arr::only($data, [
             'rt',
+            'meteran_pertama',
         ]);
 
         Arr::forget($data, [
             'rt',
+            'meteran_pertama',
         ]);
 
         $customer->user->update($data);
