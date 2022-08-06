@@ -29,6 +29,7 @@ class StoreTransaksiRequest extends FormRequest
             'tanggal_bayar' => 'required|date',
             'tanggal_tempo' => 'required|date',
             'total_bayar' => 'required|numeric',
+            'total_harga' => 'required|numeric',
             'status' => 'required|in:belum_bayar,diterima,lewati,ditolak,lunas',
             'bukti_bayar' => 'file|image',
             'meteran_awal' => 'required|numeric',

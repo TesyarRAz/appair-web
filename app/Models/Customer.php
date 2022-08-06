@@ -11,6 +11,11 @@ class Customer extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'active' => 'boolean',
+        'rt' => 'integer',
+    ];
+
     public function transaksis()
     {
         return $this->hasMany(Transaksi::class);
@@ -39,7 +44,7 @@ class Customer extends Model
 
     public function getLastMeterAttribute()
     {
-        return optional($this->latestTransaksi)->meteran_akhir ?? $this->meteran_pertama;
+        return (int) optional($this->latestTransaksi)->meteran_akhir ?? $this->meteran_pertama;
     }
 
     public function user()

@@ -114,7 +114,7 @@
         customerElement.on('select2:select', e => {
 			const customer = e.params.data.item;
             
-            modal.find('input[name=meteran_awal]').val(customer.latest_transaksi?.meteran_akhir || 0)
+            modal.find('input[name=meteran_awal]').val(customer.last_meter || 0)
 		});
     })
 </script>

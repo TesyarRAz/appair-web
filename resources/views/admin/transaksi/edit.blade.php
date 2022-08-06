@@ -28,7 +28,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Total Bayar</label>
-                                <input type="text" class="form-control" name="total_bayar" value="{{ $price }}" required>
+                                <input type="text" class="form-control" name="total_bayar" value="0" required>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Total Harga</label>
@@ -117,7 +117,7 @@
 
             let url_target = `{{ url('admin/transaksi') }}/${id}`;
             $.getJSON(url_target, function(data) {
-                modal.find("input,textarea").val(function(index, value) {
+                modal.find("input,textarea,select").val(function(index, value) {
                     if (this.type == 'checkbox' || this.type == 'radio' || this.type == 'file') {
                         return value;
                     }

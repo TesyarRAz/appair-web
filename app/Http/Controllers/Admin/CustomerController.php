@@ -28,6 +28,7 @@ class CustomerController extends Controller
                         $query->with('latestTransaksi');
                     })
                     ->get()
+                    ->append('last_meter')
             );
         }
 

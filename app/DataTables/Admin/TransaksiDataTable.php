@@ -50,20 +50,22 @@ class TransaksiDataTable extends DataTable
                 $route_delete = route('admin.transaksi.destroy', $id);
                 
                 return <<< blade
-                <div>
-                    <button class="mb-1 btn btn-sm btn-primary" onclick="edit('$id')">
-                        <i class="fa fa-pencil-alt"></i>
-                        Edit
-                    </button>
-                    <button class="mb-1 btn btn-sm btn-danger" onclick="$('#form-delete-$id').submit()">
-                        <i class="fas fa-fw fa-trash"></i>
-                        Hapus
-                    </button>
-                    <form class="d-none" action="$route_delete" method="POST" id="form-delete-$id" onsubmit="return confirm('Yakin ingin hapus transaksi?')">
-                        $csrf
-                        $delete
-                    </form>
-                </div>
+                <button class="mb-1 btn btn-sm btn-primary" onclick="edit('$id')">
+                    <i class="fa fa-pencil-alt"></i>
+                    Edit
+                </button>
+                <button class="mb-1 btn btn-sm btn-danger" onclick="$('#form-delete-$id').submit()">
+                    <i class="fas fa-fw fa-trash"></i>
+                    Hapus
+                </button>
+                <a class="mb-1 btn btn-sm btn-success" href="#">
+                    <i class="fas fa-book"></i>
+                    Invoice
+                </a>
+                <form class="d-none" action="$route_delete" method="POST" id="form-delete-$id" onsubmit="return confirm('Yakin ingin hapus transaksi?')">
+                    $csrf
+                    $delete
+                </form>
                 blade;
             })
             ->rawColumns(['aksi', 'bukti_bayar']);
