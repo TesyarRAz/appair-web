@@ -51,6 +51,8 @@
 
             let url_target = `{{ url('admin/customer') }}/${id}`;
             $.getJSON(url_target, function(data) {
+                data.user.rt = data.rt;
+                data.user.meteran_pertama = data.meteran_pertama;
                 data = data.user;
 
                 modal.find("input,textarea").val(function(index, value) {
