@@ -17,7 +17,7 @@
 				<div class="form-group">
 					<label>Berkas CSV</label>
 					<input type="file" name="berkas" class="form-control-file" accept=".csv" required>
-					<span>Format : <br>(Nama, Email, Username&lt;Opsional&gt;, Password&lt;Opsional&gt;)</span>
+					<span>Format : <br>(Nama, RT, Meteran Akhir, Email&lt;Opsional&gt;, Username&lt;Opsional&gt;, Password&lt;Opsional&gt;)</span>
 				</div>
 			</div>
 			<div class="modal-footer justify-content-between">
