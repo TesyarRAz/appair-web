@@ -162,7 +162,7 @@ class CustomerController extends Controller
             $user = User::create([
                 'name' => $d['name'],
                 'email' => $d['opsional']['email'],
-                'username' => $d['opsional']['username'] ?? ($d['opsional']['email'] ?? str()->random(5)),
+                'username' => $d['opsional']['username'] ?? ($d['opsional']['email'] ?? str()->snake($d['name']) . '_' . str()->random(4)),
                 'password' => $d['opsional']['password'] ?? ($d['opsional']['email'] ?? bcrypt('123456')),
             ]);
 
