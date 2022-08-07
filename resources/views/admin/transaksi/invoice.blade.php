@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="text-muted my-5">
+                    <div class="text-muted mt-4 mb-1">
                         <p>Terimakasih Anda telah melakukan pembayaran sebesar <span class="font-weight-bold">Rp. {{ number_format($transaksi->total_harga, 0, ',', '.') }}</span> 
                         pada bulan <span class="badge badge-danger">{{ $transaksi->tanggal_tempo->isoFormat('MMMM Y') }}</span> 
                         dengan total pemakaian <span class="font-weight-bold">{{ $transaksi->meteran_akhir - $transaksi->meteran_awal }} Meter Kubik</span>. 
