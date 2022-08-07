@@ -34,9 +34,11 @@
                     </div>
                     <hr>
                     <div class="text-muted my-5">
-                        <p>Terima Kasih, Pelanggan dengan Nama {{ $transaksi->customer->user->name }}<br> Telah Melakukan Pembayaran Untuk Tagihan Tanggal 
-                        <span class="badge badge-danger">{{ $transaksi->tanggal_tempo->isoFormat('MMMM Y') }}</span> Untuk Membayar Tagihan Air <span class="font-weight-bold">{{ $transaksi->meteran_akhir - $transaksi->meteran_awal }} Kubik</span> Seharga 
-                        <span class="font-weight-bold">Rp. {{ number_format($transaksi->total_harga, 0, ',', '.') }}</span></p>
+                        <p>Terimakasih Anda telah melakukan pembayaran sebesar <span class="font-weight-bold">Rp. {{ number_format($transaksi->total_harga, 0, ',', '.') }}</span> 
+                        pada bulan <span class="badge badge-danger">{{ $transaksi->tanggal_tempo->isoFormat('MMMM Y') }}</span> 
+                        dengan total pemakaian <span class="font-weight-bold">{{ $transaksi->meteran_akhir - $transaksi->meteran_awal }} Meter Kubik</span>. 
+                        Meteran akhir Anda adalah {{ $transaksi->meteran_akhir }}
+                        </p>
                     </div>
                     <div class="pt-5">
                         <span class="mx-1">{{ auth()->user()->name }}</span>
