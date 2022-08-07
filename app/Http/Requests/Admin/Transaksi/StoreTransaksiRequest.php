@@ -41,6 +41,8 @@ class StoreTransaksiRequest extends FormRequest
     {
         $this->merge([
             'admin_id' => auth()->id(),
+            'total_harga' => str()->replace($this->total_harga, '.', ''),
+            'total_bayar' => str()->replace($this->total_harga, '.', ''),
         ]);
     }
 }

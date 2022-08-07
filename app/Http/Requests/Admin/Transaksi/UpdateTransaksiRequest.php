@@ -25,7 +25,7 @@ class UpdateTransaksiRequest extends FormRequest
     public function rules()
     {
         return [
-            'customer_id' => 'required|exists:customers,id',
+            // 'customer_id' => 'required|exists:customers,id',
             'tanggal_bayar' => 'required|date',
             'tanggal_tempo' => 'required|date',
             'total_bayar' => 'required|numeric',
@@ -35,5 +35,14 @@ class UpdateTransaksiRequest extends FormRequest
             'meteran_awal' => 'required|numeric',
             'meteran_akhir' => 'required|numeric',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'admin_id' => auth()->id(),
+            'total_harga' => str()->replace('.', '', $this->total_harga),
+            'total_bayar' => str()->replace('.', '', $this->total_harga),
+        ]);
     }
 }

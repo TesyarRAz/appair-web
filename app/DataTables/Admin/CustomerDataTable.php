@@ -33,7 +33,7 @@ class CustomerDataTable extends DataTable
                 <div>
                     <a href="$route_transaksi" class="mb-1 btn btn-sm btn-success">
                         <i class="fas fa-fw fa-book-open"></i>
-                        Transaksi
+                        Riwayat Transaksi
                     </a>
                     <button type="button" class="mb-1 btn btn-sm btn-primary" onclick="edit('$id')">
                         <i class="fas fa-fw fa-pencil-alt"></i>

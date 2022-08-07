@@ -63,9 +63,14 @@ class TransaksiController extends Controller
      * @param  \App\Models\Transaksi  $transaksi
      * @return \Illuminate\Http\Response
      */
-    public function show(Transaksi $transaksi)
+    public function show(Transaksi $transaksi, Request $request)
     {
         $transaksi->load('customer.user');
+
+        if ($request->type == 'invoice')
+        {
+            return view('admin.transaksi.invoice', compact('transaksi'));
+        }
         
         return response($transaksi);
     }

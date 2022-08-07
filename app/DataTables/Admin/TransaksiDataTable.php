@@ -37,38 +37,74 @@ class TransaksiDataTable extends DataTable
                 return optional($row->tanggal_bayar)->format('d-m-Y') ?? '-';
             })
             ->editColumn('tanggal_tempo', function($row) {
-                return optional($row->tanggal_tempo)->format('d-m-Y') ?? '-';
+                $date = optional($row->tanggal_tempo)->isoFormat('MMMM Y') ?? '-';
+
+                return <<< blade
+                <span class="badge badge-danger">
+                $date
+                </span>
+                blade;
             })
             ->editColumn('total_harga', function($row) {
                 return 'Rp. '.number_format($row->total_harga, 0, ',', '.');
             })
             ->addColumn('aksi', function($row) {
                 $id = $row->id;
-                $csrf = csrf_field();
-                $delete = method_field('DELETE');
 
+                $csrf = csrf_field();
+                $delete = method_field('delete');
+                
                 $route_delete = route('admin.transaksi.destroy', $id);
+                $route_invoice = route('admin.transaksi.show', ['transaksi' => $id, 'type' => 'invoice']);
+
+                if (request()->status == 'belum_bayar')
+                {
+                    $btn_edit = <<< blade
+                    <button class="mb-1 btn btn-sm btn-primary" onclick="edit('$id')">
+                        <i class="fa fa-money-bill"></i>
+                        Bayar
+                    </button>
+                    blade;
+                }
+                else
+                {
+                    $btn_edit = <<< blade
+                    <button class="mb-1 btn btn-sm btn-primary" onclick="edit('$id')">
+                        <i class="fa fa-pencil-alt"></i>
+                        Edit
+                    </button>
+                    blade;
+                }
+
+                if (request()->status == 'lunas')
+                {
+                    $btn_invoice = <<< blade
+                    <a class="mb-1 btn btn-sm btn-success" href="$route_invoice">
+                        <i class="fas fa-book"></i>
+                        Invoice
+                    </a>
+                    blade;
+                }
+                else
+                {
+                    $btn_invoice = '';
+                }
                 
                 return <<< blade
-                <button class="mb-1 btn btn-sm btn-primary" onclick="edit('$id')">
-                    <i class="fa fa-pencil-alt"></i>
-                    Edit
-                </button>
-                <button class="mb-1 btn btn-sm btn-danger" onclick="$('#form-delete-$id').submit()">
+                $btn_edit
+                <button class="mb-1 btn btn-sm btn-danger d-none" onclick="$('#form-delete-$id').submit()">
                     <i class="fas fa-fw fa-trash"></i>
                     Hapus
                 </button>
-                <a class="mb-1 btn btn-sm btn-success" href="#">
-                    <i class="fas fa-book"></i>
-                    Invoice
-                </a>
+                $btn_invoice
                 <form class="d-none" action="$route_delete" method="POST" id="form-delete-$id" onsubmit="return confirm('Yakin ingin hapus transaksi?')">
                     $csrf
                     $delete
                 </form>
                 blade;
             })
-            ->rawColumns(['aksi', 'bukti_bayar']);
+            ->addIndexColumn()
+            ->rawColumns(['tanggal_tempo', 'aksi', 'bukti_bayar']);
     }
 
     /**
@@ -84,9 +120,12 @@ class TransaksiDataTable extends DataTable
         ->when(request()->has('status'), fn($query) => $query
             ->where('status', request()->status)
         )
-        ->when(request()->has('from', 'to'), fn($query) => $query
+        ->when(request()->filled('from', 'to'), fn($query) => $query
             ->whereBetween('tanggal_tempo', [request()->from, request()->to])
-        );
+        )
+        ->join('customers', 'customers.id', '=', 'transaksis.customer_id')
+        ->join('users', 'users.id', '=', 'customers.user_id')
+        ->orderBy('users.name');
     }
 
     /**
@@ -116,8 +155,8 @@ class TransaksiDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('id')->title('ID'),
-            Column::computed('customer.user.name')->title('Customer'),
+            Column::computed('DT_RowIndex', 'No'),
+            Column::make('customer.user.name')->title('Customer'),
             Column::make('tanggal_tempo'),
             Column::make('tanggal_bayar'),
             Column::make('total_harga')->title('Total Harga'),

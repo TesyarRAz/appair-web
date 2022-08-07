@@ -12,10 +12,10 @@
 				<h6 class="text-primary font-weight-bold">Daftar Transaksi</h6>
 			</div>
 			<div class="ml-auto">
-				<button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modal-create">
+				{{-- <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modal-create">
 					<i class="fas fa-plus"></i>
 					Tambah
-				</button>
+				</button> --}}
 			</div>
 		</div>
 	</div>
@@ -34,13 +34,13 @@
 		<form class="form-group" action="{{ route('admin.transaksi.index') }}" method="get" id="form-filter-tanggal">
     		<div class="form-row no-gutters align-items-center">
 				<div class="col-lg-4">
-					<input type="date" name="from" class="form-control form-control-sm" value="{{ now()->subMonth(1)->format('Y-m-d') }}">
+					<input type="date" name="from" class="form-control form-control-sm">
 				</div>
 				<div class="col-auto">
 					-
 				</div>
 				<div class="col-lg-4">
-					<input type="date" name="to" class="form-control form-control-sm" value="{{ now()->addMonth(1)->format('Y-m-d') }}">
+					<input type="date" name="to" class="form-control form-control-sm">
 				</div>
 			</div>
     	</form>
@@ -52,10 +52,16 @@
 @endsection
 
 @push('js')
+<script src="{{ asset('js/jquery.mask.min.js') }}"></script>
+<script src="{{ asset('js/dayjs.min.js') }}"></script>
+<script src="{{ asset('js/dayjs-id.js') }}"></script>
+
 {{ $dataTable->scripts() }}
 
 <script type="text/javascript">
     $(function() {
+		dayjs.locale('id')
+
         $("#form-filter-status, #form-filter-tanggal").on('change', function() {
 			LaravelDataTables["dataTableBuilder"].ajax.reload()
 		})

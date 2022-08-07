@@ -5,7 +5,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Edit Transaksi</h4>
+                <h4 class="modal-title">Bayar Transaksi</h4>
                 <button type="button" class="close" data-dismiss="modal">
                     <span>x</span>
                 </button>
@@ -16,23 +16,32 @@
                         <div class="form-group" x-data="{ status: '', keterangan_ditolak: '' }" x-init="$watch('status', value => keterangan_ditolak = (value != 'ditolak' ? '' : keterangan_ditolak))">
                             <div class="form-group">
                                 <label class="font-weight-bold">Customer</label>
-                                <select name="customer_id" class="form-control" required></select>
+                                <select name="customer_id" class="form-control"></select>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Tanggal Bayar</label>
-                                <input type="date" class="form-control" name="tanggal_bayar" value="{{ now()->format('Y-m-d') }}" required>
+                                <input type="date" class="form-control" name="tanggal_bayar" value="{{ now()->format('Y-m-d') }}" readonly required>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Tanggal Tempo</label>
-                                <input type="date" class="form-control" name="tanggal_tempo" value="{{ now()->endOfMonth()->format('Y-m-d') }}" required>
+                                <input type="hidden" class="form-control" name="tanggal_tempo" value="{{ now()->endOfMonth()->format('Y-m-d') }}" required>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <input type="text" name="bulan_tempo" class="form-control" readonly>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" name="tahun_tempo" class="form-control" readonly>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-bold">Total Bayar</label>
-                                <input type="text" class="form-control" name="total_bayar" value="0" required>
+                                <label class="font-weight-bold">Meteran Awal</label>
+                                <input type="text" class="form-control" name="meteran_awal" value="0" required>
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-bold">Total Harga</label>
-                                <input type="text" class="form-control" name="total_harga" value="0" required>
+                                <label class="font-weight-bold">Meteran Akhir</label>
+                                <input type="text" class="form-control" name="meteran_akhir" value="0" required>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Status</label>
@@ -50,14 +59,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="font-weight-bold">Meteran Awal</label>
-                            <input type="text" class="form-control" name="meteran_awal" value="0" required>
+                    <div class="col-lg">
+                        <div class="form-group d-none">
+                            <label class="font-weight-bold">Total Bayar</label>
+                            <input type="text" class="form-control" name="total_bayar" value="0" required>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Meteran Akhir</label>
-                            <input type="text" class="form-control" name="meteran_akhir" value="0" required>
+                            <label class="font-weight-bold">Total Harga</label>
+                            <input type="text" class="form-control" name="total_harga" value="0" required>
                         </div>
                         <div class="form-group" data-toggle="image-preview">
                             <label class="font-weight-bold">Bukti Bayar</label>
@@ -88,6 +97,7 @@
         let price = {{ $price }};
 
         let customerElement = modal.find("select[name=customer_id]").select2({
+            disabled: true,
 			placeholder: 'Cari',
 			theme: 'bootstrap',
 			ajax: {
@@ -112,6 +122,18 @@
 			}
 		});
 
+        modal.find('input[name=meteran_akhir]').on('change', function() {
+            let meteran_awal = modal.find('input[name=meteran_awal]').val();
+            let meteran_akhir = modal.find('input[name=meteran_akhir]').val();
+            let total_harga = (meteran_akhir - meteran_awal) * price;
+
+            modal.find('input[name=total_harga]').val(total_harga).trigger('input');
+        });
+
+        modal.find('input[name=total_harga]').mask('000.000.000', {
+            reverse: true,
+        });
+
         window.edit = function(id) {
             let modal = $("#modal-edit");
 
@@ -121,6 +143,11 @@
                     if (this.type == 'checkbox' || this.type == 'radio' || this.type == 'file') {
                         return value;
                     }
+
+                    if (data[this.name] == null) {
+                        return value;
+                    }
+
                     return ['_method', '_token'].includes(this.name) ? value : (data[this.name]);
                 }).each(function() {
                     if (this.type == 'checkbox' || this.type == 'radio') {
@@ -138,6 +165,9 @@
 						id: data.customer.id,
 					}
 				});
+
+                modal.find('input[name=bulan_tempo]').val(dayjs(modal.find('input[name=tanggal_tempo]').val()).format('MMMM'));
+                modal.find('input[name=tahun_tempo]').val(dayjs(modal.find('input[name=tanggal_tempo]').val()).format('YYYY'));
 
 				modal.attr('action', url_target);
 				modal.modal();
