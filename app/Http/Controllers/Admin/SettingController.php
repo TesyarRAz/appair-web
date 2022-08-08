@@ -18,6 +18,7 @@ class SettingController extends Controller
     public function index()
     {
         return view('admin.settings.index', [
+            'general' => resolve(GeneralSetting::class),
             'price' => resolve(PriceSetting::class),
             'style' => resolve(StyleSetting::class),
         ]);
