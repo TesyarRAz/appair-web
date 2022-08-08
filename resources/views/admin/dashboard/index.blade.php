@@ -12,7 +12,7 @@
                             Pembayaran ( Bulan Ini )
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            {{ number_format(\App\Models\Transaksi::whereMonth('tanggal_bayar', now())->whereYear('tanggal_bayar', now())->sum('total_harga'), 0, ',', '.') }}
+                            {{ number_format(\App\Models\Transaksi::whereMonth('tanggal_bayar', now())->whereYear('tanggal_bayar', now())->where('status', 'lunas')->sum('total_harga'), 0, ',', '.') }}
                         </div>
                     </div>
                     <div class="col-auto">
