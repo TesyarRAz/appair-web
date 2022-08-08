@@ -4,19 +4,11 @@
 
 <h4>Pengaturan</h4>
 
-<div class="row mt-5">
-	<div class="col-lg-4 col-md-6 mb-2">
-		@include('admin.settings.general')
-	</div>
-	<div class="col-lg-4 col-md-6 mb-2">
-		@include('admin.settings.price')
-	</div>
-	<div class="col-lg-4 col-md-6 mb-2">
-		@include('admin.settings.style')
-	</div>
-	<div class="col-lg-4 col-md-6 mb-2">
-		@include('admin.settings.tools')
-	</div>
+<div class="card-columns mt-5">
+	@include('admin.settings.general')
+	@include('admin.settings.price')
+	@include('admin.settings.style')
+	@include('admin.settings.tools')
 </div>
 
 @endsection
