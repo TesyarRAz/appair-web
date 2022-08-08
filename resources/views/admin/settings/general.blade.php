@@ -16,7 +16,7 @@
         </div>
         <div class="form-group">
             <label>Rekening Info</label>
-            <textarea name="mobile_rekening_info" class="form-control" value="{{ $general->mobile_rekening_info }}" required></textarea>
+            <textarea name="mobile_rekening_info" class="form-control" required>{{ $general->mobile_rekening_info }}</textarea>
         </div>
     </div>
     <div class="card-footer d-flex justify-content-end">
