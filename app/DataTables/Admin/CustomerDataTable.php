@@ -51,6 +51,7 @@ class CustomerDataTable extends DataTable
                 </div>
                 blade;
             })
+            ->addIndexColumn()
             ->rawColumns(['aksi']);
     }
 
@@ -63,7 +64,9 @@ class CustomerDataTable extends DataTable
     public function query()
     {
         return Customer::select('customers.*')
-        ->with('user');
+        ->with('user')
+        ->join('users', 'users.id', '=', 'customers.user_id')
+        ->orderBy('users.name');
     }
 
     /**
@@ -93,7 +96,7 @@ class CustomerDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('id'),
+            Column::computed('DT_RowIndex', 'No'),
             Column::make('user.name')->title('Name'),
             Column::make('rt')->title('RT'),
             Column::make('meteran_pertama')->title('Meteran Pertama'),
