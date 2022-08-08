@@ -24,7 +24,7 @@ class UpdateGeneralRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_date' => 'required|date',
+            // 'start_date' => 'required|date',
             'app_name' => 'required|string|max:255',
             'mobile_rekening_info' => 'required|string',
         ];
