@@ -13,7 +13,7 @@ class BayarRequest extends FormRequest
      */
     public function authorize()
     {
-        return blank(auth()->user()->customer->activeTransaksi);
+        return filled(auth()->user()->customer->activeTransaksi);
     }
 
     /**
