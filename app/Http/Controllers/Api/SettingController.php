@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Settings\GeneralSetting;
 use App\Settings\PriceSetting;
 use Illuminate\Http\Request;
 
@@ -17,9 +18,11 @@ class SettingController extends Controller
     public function __invoke(Request $request)
     {
         $setting = resolve(PriceSetting::class);
+        $general = resolve(GeneralSetting::class);
 
         return response()->json([
             'price' => $setting->toArray(),
+            'general' => $general->toArray(),
         ]);
     }
 }
