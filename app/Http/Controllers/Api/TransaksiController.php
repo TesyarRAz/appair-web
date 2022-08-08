@@ -16,7 +16,7 @@ class TransaksiController extends Controller
     {
         if ($request->type == 'active')
         {
-            $now_transaksi = auth()->user()->customer->activeTransaksi;
+            $now_transaksi = auth()->user()->customer->currentTransaksi;
 
             return response()->json([
                 'status' => 'success',
