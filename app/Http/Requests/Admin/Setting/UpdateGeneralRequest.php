@@ -26,6 +26,7 @@ class UpdateGeneralRequest extends FormRequest
         return [
             'start_date' => 'required|date',
             'app_name' => 'required|string|max:255',
+            'mobile_rekening_info' => 'string',
         ];
     }
 }

@@ -14,6 +14,10 @@
             <label>Nama Aplikasi</label>
             <input name="app_name" type="text" class="form-control" value="{{ $general->app_name }}" required>
         </div>
+        <div class="form-group">
+            <label>Rekening Info</label>
+            <textarea name="mobile_rekening_info" class="form-control" value="{{ $general->mobile_rekening_info }}" required></textarea>
+        </div>
     </div>
     <div class="card-footer d-flex justify-content-end">
         <button type="submit" class="btn btn-primary">Simpan</button>
