@@ -44,7 +44,7 @@ class Customer extends Model
 
     public function getLastMeterAttribute()
     {
-        return (int) optional($this->latestTransaksi)->meteran_akhir ?? $this->meteran_pertama;
+        return (int) (optional($this->latestTransaksi)->meteran_akhir ?? $this->meteran_pertama);
     }
 
     public function user()
