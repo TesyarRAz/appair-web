@@ -2,10 +2,10 @@
 
 use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
-class add_general_rekening_info extends SettingsMigration
+return new class extends SettingsMigration
 {
     public function up(): void
     {
         $this->migrator->add('general.mobile_rekening_info', '');
     }
-}
+};
