@@ -57,7 +57,7 @@ class TransaksiDataTable extends DataTable
                 $route_delete = route('admin.transaksi.destroy', $id);
                 $route_invoice = route('admin.transaksi.show', ['transaksi' => $id, 'type' => 'invoice']);
 
-                if (request()->status == 'belum_bayar')
+                if (in_array(request()->status, ['belum_bayar', 'diterima']))
                 {
                     $btn_edit = <<< blade
                     <button class="mb-1 btn btn-sm btn-primary" onclick="edit('$id')">
