@@ -106,7 +106,7 @@ class CustomerController extends Controller
 
     public function transaksi(Customer $customer)
     {
-        $transaksis = $customer->transaksis()->latest()->get();
+        $transaksis = $customer->transaksis()->whereNotIn('status', ['belum_bayar'])->latest('tanggal_tempo')->get();
 
         return view('admin.customer.transaksi', compact('customer', 'transaksis'));
     }
