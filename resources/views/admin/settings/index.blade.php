@@ -6,6 +6,9 @@
 
 <div class="row mt-5">
 	<div class="col-lg-4 col-md-6 mb-2">
+		@include('admin.settings.general')
+	</div>
+	<div class="col-lg-4 col-md-6 mb-2">
 		@include('admin.settings.price')
 	</div>
 	<div class="col-lg-4 col-md-6 mb-2">
