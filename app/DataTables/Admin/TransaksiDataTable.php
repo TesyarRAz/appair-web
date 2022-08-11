@@ -30,7 +30,7 @@ class TransaksiDataTable extends DataTable
 
                 $bukti_bayar = Storage::disk('public')->url($row->bukti_bayar);
                 return <<< blade
-                <img src="$bukti_bayar" alt="$bukti_bayar" width="200px" height="200px" class="img-thumbnail">
+                <img role="button" onclick="dialogImage('$bukti_bayar')" src="$bukti_bayar" alt="$bukti_bayar" width="200px" height="200px" class="img-thumbnail">
                 blade;
             })
             ->editColumn('tanggal_bayar', function($row) {
