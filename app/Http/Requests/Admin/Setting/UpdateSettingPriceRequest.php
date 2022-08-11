@@ -25,6 +25,7 @@ class UpdateSettingPriceRequest extends FormRequest
     {
         return [
             'per_kubik' => 'required|numeric|min:0',
+            'abudemen' => 'required|numeric|min:0',
         ];
     }
 }

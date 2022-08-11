@@ -30,7 +30,11 @@
         <img src="{{ $info->image }}" alt="image.png" class="img-fluid mx-0">
         @endif
         <div class="mt-5">
-            {!! $info->description !!}
+            <div class="card">
+				<div class="card-body">
+					{!! $info->description !!}
+				</div>
+			</div>
         </div>
     </div>
 

@@ -69,7 +69,9 @@
 
 	function dialogImage(url) {
 		Swal.fire({
-			imageUrl: url
+			imageUrl: url,
+			showCancelButton: false,
+			showConfirmButton: false
 		})
 	}
 </script>

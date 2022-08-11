@@ -14,6 +14,7 @@ class Customer extends Model
     protected $casts = [
         'active' => 'boolean',
         'rt' => 'integer',
+        'is_all_lunas' => 'boolean',
     ];
 
     public function transaksis()
@@ -45,6 +46,11 @@ class Customer extends Model
     public function getLastMeterAttribute()
     {
         return (int) (optional($this->latestTransaksi)->meteran_akhir ?? $this->meteran_pertama);
+    }
+
+    public function getIsAllLunasAttribute()
+    {
+        return !$this->transaksis()->whereIn('status', ['belum_bayar'])->exists();
     }
 
     public function user()

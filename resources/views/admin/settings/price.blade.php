@@ -14,6 +14,10 @@
             <label>Harga Per-Kubik</label>
             <input name="per_kubik" type="number" class="form-control" min="0" value="{{ $price->per_kubik }}" required>
         </div>
+		<div class="form-group">
+            <label>Harga Abudemen</label>
+            <input name="abudemen" type="number" class="form-control" min="0" value="{{ $price->abudemen }}" required>
+        </div>
     </div>
     <div class="card-footer d-flex justify-content-end">
         <button type="submit" class="btn btn-primary">Simpan</button>

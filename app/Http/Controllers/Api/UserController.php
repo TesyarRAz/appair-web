@@ -15,6 +15,7 @@ class UserController extends Controller
         $user = auth()->user();
 
         $user->customer->append('last_meter');
+        $user->customer->append('is_all_lunas');
 
         return response($user);
     }

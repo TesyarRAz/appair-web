@@ -54,11 +54,14 @@ class TransaksiController extends Controller
 
             Log::debug('checker : ' . (($request->meteran_akhir - $last_meter) * $price->per_kubik));
 
+            $total_harga = (($request->meteran_akhir - $last_meter) * $price->per_kubik) + $price->abudemen;
+
             $data = [
                 'bukti_bayar' => UploadFile::dispatchSync($request->file('bukti_bayar'), 'images/bukti_bayar'),
                 'meteran_awal' => $last_meter,
                 'meteran_akhir' => $request->meteran_akhir,
-                'total_harga' => ($request->meteran_akhir - $last_meter) * $price->per_kubik,
+                'total_harga' => $total_harga,
+                'total_bayar' => $total_harga,
                 'status' => 'diterima',
             ];
 
