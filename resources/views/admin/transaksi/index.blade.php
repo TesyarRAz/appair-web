@@ -66,5 +66,11 @@
 			LaravelDataTables["dataTableBuilder"].ajax.reload()
 		})
     })
+
+	function dialogImage(url) {
+		Swal.fire({
+			imageUrl: url
+		})
+	}
 </script>
 @endpush
