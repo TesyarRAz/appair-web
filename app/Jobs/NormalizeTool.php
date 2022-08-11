@@ -35,7 +35,7 @@ class NormalizeTool implements ShouldQueue
     {
         $tanggal_tempo = now()->endOfMonth();
 
-        $customers = Customer::with('latestTransaksi')->whereDoesntHave('activeTransaksi')->where('active', true)->get();
+        $customers = Customer::with('latestTransaksi')->whereDoesntHave('currentTransaksi')->where('active', true)->get();
 
         $customers->each(fn($customer) => $customer->transaksis()->create([
             'tanggal_tempo' => $tanggal_tempo,
