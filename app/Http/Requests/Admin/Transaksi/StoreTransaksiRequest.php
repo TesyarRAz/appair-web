@@ -34,6 +34,7 @@ class StoreTransaksiRequest extends FormRequest
             'bukti_bayar' => 'file|image',
             'meteran_awal' => 'required|numeric',
             'meteran_akhir' => 'required|numeric',
+            'keterangan_ditolak' => 'bail',
         ];
     }
 
