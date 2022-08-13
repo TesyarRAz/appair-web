@@ -24,8 +24,16 @@ class UpdateSettingPriceRequest extends FormRequest
     public function rules()
     {
         return [
-            'per_kubik' => 'required|numeric|min:0',
-            'abudemen' => 'required|numeric|min:0',
+            'per_kubik' => 'required',
+            'abudemen' => 'required',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'per_kubik' => str($this->per_kubik)->replace('.', '')->value(),
+            'abudemen' => str($this->abudemen)->replace('.', '')->value(),
+        ]);
     }
 }
