@@ -46,7 +46,7 @@
 					<i class="fas fa-water"></i>
 				</div>
 				<div class="sidebar-brand-text mx-3">
-					AppAir
+					{{ app(\App\Settings\GeneralSetting::class)->app_name }}
 				</div>
 			</a>
 
