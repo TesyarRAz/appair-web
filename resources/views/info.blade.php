@@ -41,7 +41,7 @@
 	</style>
 </head>
 <body>
-    <div class="container my-5">
+    <div class="container my-5" style="height: 80%">
         <div class="bg-white p-2 ">
 			<h4 class="text-center">{{ $info->title }}</h4>
 		</div>
@@ -56,6 +56,10 @@
 			</div>
         </div>
     </div>
+
+	<div style="height: 20%" class="bg-primary p-2 text-center">
+		Copyright &copy; MBCorp 2022
+	</div>
 
 	{{-- Bootstrap --}}
 
