@@ -35,6 +35,8 @@
             background-position: center;
             background-repeat: no-repeat;
         @endif
+
+		height: 100%;
 	}
 	</style>
 </head>
