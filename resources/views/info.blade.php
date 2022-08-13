@@ -42,10 +42,8 @@
 </head>
 <body>
     <div class="container my-5">
-        <div class="card">
-			<div class="card-body">
-				<h4 class="text-center">{{ $info->title }}</h4>
-			</div>
+        <div class="bg-white p-2 ">
+			<h4 class="text-center">{{ $info->title }}</h4>
 		</div>
         @if(filled($info->image))
         <img src="{{ $info->image }}" alt="image.png" class="img-fluid mx-0">
