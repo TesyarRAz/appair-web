@@ -36,7 +36,7 @@
             background-repeat: no-repeat;
         @endif
 
-		height: 100%;
+		height: 100vh;
 	}
 	</style>
 </head>
