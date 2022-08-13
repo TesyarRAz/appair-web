@@ -41,7 +41,7 @@
 	</style>
 </head>
 <body>
-    <div class="container my-5" style="height: 80%">
+    <div class="container my-5" style="height: 95%">
         <div class="bg-white p-2 ">
 			<h4 class="text-center">{{ $info->title }}</h4>
 		</div>
@@ -57,7 +57,7 @@
         </div>
     </div>
 
-	<div style="height: 20%" class="bg-primary p-2 text-center">
+	<div style="height: 5%" class="bg-primary p-2 d-flex justify-content-center align-items-center font-weight-bold text-white">
 		Copyright &copy; MBCorp 2022
 	</div>
 
