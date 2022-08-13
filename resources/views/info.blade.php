@@ -41,7 +41,7 @@
 	</style>
 </head>
 <body>
-    <div class="container my-5" style="height: 95%">
+    <div class="container py-5" style="height: 95%">
         <div class="bg-white p-2 ">
 			<h4 class="text-center">{{ $info->title }}</h4>
 		</div>
