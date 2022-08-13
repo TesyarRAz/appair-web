@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 	<meta charset="utf-8">
-	<title>{{ config('app.name') }} - @yield('title')</title>
+	<title>{{ app(\App\Settings\GeneralSetting::class)->app_name }} - @yield('title')</title>
 	@unless(isset($without_viewport) && $without_viewport)
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	@endunless

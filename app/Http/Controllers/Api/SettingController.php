@@ -19,10 +19,12 @@ class SettingController extends Controller
     {
         $setting = resolve(PriceSetting::class);
         $general = resolve(GeneralSetting::class);
+        $style = resolve(StyleSetting::class);
 
         return response()->json([
             'price' => $setting->toArray(),
             'general' => $general->toArray(),
+            'style' => $style->toArray(),
         ]);
     }
 }
