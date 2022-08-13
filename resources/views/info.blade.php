@@ -22,9 +22,24 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
 	
     @stack('css')
+
+	<style type="text/css">
+	.background-style {
+		background-repeat: no-repeat;
+		
+		@if ($style->bg_type == 'color')
+            background-color: {{ $style->bg_color }};
+        @else
+            background-image: url('{{ \Storage::disk('public')->url($style->bg_image) }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        @endif
+	}
+	</style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-5" class="background-style">
         <h4 class="text-center">{{ $info->title }}</h4>
         @if(filled($info->image))
         <img src="{{ $info->image }}" alt="image.png" class="img-fluid mx-0">

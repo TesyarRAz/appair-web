@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Settings\GeneralSetting;
 use App\Settings\PriceSetting;
+use App\Settings\StyleSetting;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Info;
+use App\Settings\StyleSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
@@ -20,6 +21,8 @@ class InfoController extends Controller
 
         $info = Info::find($code);
 
-        return view('info', compact('info'));
+        $style = resolve(StyleSetting::class);
+
+        return view('info', compact('info', 'style'));
     }
 }
